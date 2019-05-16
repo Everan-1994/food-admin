@@ -2,13 +2,15 @@
 
 namespace App\Admin\Controllers;
 
-use App\Models\Culture;
+use App\Models\Cooperation;
 use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\HasResourceActions;
 use Encore\Admin\Form;
+use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
+use Encore\Admin\Show;
 
-class CultureController extends Controller
+class CooperationController extends Controller
 {
     use HasResourceActions;
 
@@ -22,7 +24,8 @@ class CultureController extends Controller
     public function edit($id, Content $content)
     {
         return $content
-            ->header('底部内容')
+            ->header('合作流程')
+            ->description('description')
             ->body($this->form()->edit($id));
     }
 
@@ -36,7 +39,7 @@ class CultureController extends Controller
 
         admin_toastr('内容更新成功', 'success');
 
-        return redirect('/admin/culture/1/edit');
+        return redirect('/admin/cooperation/1/edit');
     }
 
     /**
@@ -46,14 +49,10 @@ class CultureController extends Controller
      */
     protected function form()
     {
-        $form = new Form(new Culture);
+        $form = new Form(new Cooperation);
 
-        $form->image('logo', '企业logo')->rules('required|image');
-        $form->text('name', '企业名称')->rules('required');
-        $form->text('tel', '企业热线')->rules('required');
-        $form->text('address', '企业地址')->rules('required');
-        $form->image('wx_qrcode', '微信二维码')->rules('required|image');
-        $form->image('kf_qrcode', '客服二维码')->rules('required|image');
+        $form->UEditor('content', '内容')->rules('required');
+        $form->image('image_url', '图片')->rules('required|image');
 
         $form->tools(function (Form\Tools $tools) {
             // 去掉`列表`按钮
@@ -63,7 +62,6 @@ class CultureController extends Controller
             // 去掉`查看`按钮
             $tools->disableView();
         });
-
 
         $form->footer(function ($footer) {
             // 去掉`查看`checkbox

@@ -2,14 +2,15 @@
 
 namespace App\Admin\Controllers;
 
-use App\Models\Banner;
+use App\Models\BrandCooperation;
 use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\HasResourceActions;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
+use Encore\Admin\Show;
 
-class BannerController extends Controller
+class BrandCooperationController extends Controller
 {
     use HasResourceActions;
 
@@ -22,23 +23,8 @@ class BannerController extends Controller
     public function index(Content $content)
     {
         return $content
-            ->header('轮播图')
+            ->header('品牌合作')
             ->body($this->grid());
-    }
-
-    /**
-     * Show interface.
-     *
-     * @param mixed $id
-     * @param Content $content
-     * @return Content
-     */
-    public function show($id, Content $content)
-    {
-        return $content
-            ->header('Detail')
-            ->description('description')
-            ->body($this->detail($id));
     }
 
     /**
@@ -51,8 +37,7 @@ class BannerController extends Controller
     public function edit($id, Content $content)
     {
         return $content
-            ->header('Edit')
-            ->description('description')
+            ->header('品牌合作编辑')
             ->body($this->form()->edit($id));
     }
 
@@ -65,7 +50,7 @@ class BannerController extends Controller
     public function create(Content $content)
     {
         return $content
-            ->header('新建轮播图')
+            ->header('品牌合作新增')
             ->body($this->form());
     }
 
@@ -76,11 +61,11 @@ class BannerController extends Controller
      */
     protected function grid()
     {
-        $grid = new Grid(new Banner);
+        $grid = new Grid(new BrandCooperation);
 
-        $grid->id('ID')->sortable()->style('vertical-align: middle;');
-        $grid->img_url('图片')->image()->style('vertical-align: middle;');
-        $grid->jump_url('外部链接')->style('vertical-align: middle;');
+        $grid->id('Id');
+        $grid->name('品牌名称');
+        $grid->created_at('添加时间');
 
         $grid->actions(function ($actions) {
             $actions->disableView(); // 禁用查看
@@ -93,8 +78,14 @@ class BannerController extends Controller
             });
         });
 
-        // 禁用查询过滤器
-        $grid->disableFilter();
+        // 查询
+        $grid->filter(function($filter){
+
+            // 去掉默认的id过滤器
+            $filter->disableIdFilter();
+
+            $filter->like('name', '品牌名称');
+        });
 
         return $grid;
     }
@@ -106,12 +97,16 @@ class BannerController extends Controller
      */
     protected function form()
     {
-        $form = new Form(new Banner);
+        $form = new Form(new BrandCooperation);
 
-        // 创建一个选择图片的框
-        $form->image('img_url', '图片')->rules('required|image');
-        // 创建一个输入框，第一个参数 title 是模型的字段名，第二个参数是该字段描述
-        $form->text('jump_url', '外部链接')->placeholder('https://www.baidu.com')->rules('required|url');
+        $form->text('name', '品牌名称')->rules('required');
+        $form->UEditor('content', '品牌详情')->rules('required');
+        $form->image('logo', '品牌图标')->rules('required|image');
+        $form->multipleImage('images_url', '品牌图片')->removable()->rules('required|image');
+        $form->text('company_name', '厂家名称')->disable();
+        $form->text('contact', '联系人')->disable();
+        $form->text('tel', '联系电话')->disable();
+        $form->text('address', '厂家地址')->disable();
 
         $form->tools(function (Form\Tools $tools) {
             // 去掉`查看`按钮
