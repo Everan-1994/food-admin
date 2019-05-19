@@ -373,7 +373,7 @@ return [
                         'link', 'unlink', 'anchor', '|',
                         'justifyleft', 'justifycenter', 'justifyright', 'justifyjustify', '|',
                         'imagenone', 'imageleft', 'imageright', 'imagecenter', '|',
-                        'insertimage', 'emotion', 'attachment', 'map', 'insertcode', 'template', '|',
+                        'insertimage', 'insertvideo', 'emotion', 'attachment', 'map', 'insertcode', 'template', '|',
                         'horizontal', 'spechars', 'preview', 'searchreplace', '|',
                         'inserttable', 'deletetable', 'insertparagraphbeforetable', 'insertrow', 'deleterow', 'insertcol', 'deletecol', 'mergecells', 'mergeright', 'mergedown', 'splittocells', 'splittorows', 'splittocols', 'charts'
                     ]

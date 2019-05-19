@@ -2,7 +2,7 @@
 
 namespace App\Admin\Controllers;
 
-use App\Models\BrandCooperation;
+use App\Models\OwnBrand;
 use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\HasResourceActions;
 use Encore\Admin\Form;
@@ -10,7 +10,7 @@ use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
 use Encore\Admin\Show;
 
-class BrandCooperationController extends Controller
+class OwnBrandController extends Controller
 {
     use HasResourceActions;
 
@@ -23,7 +23,7 @@ class BrandCooperationController extends Controller
     public function index(Content $content)
     {
         return $content
-            ->header('品牌合作列表')
+            ->header('产品列表')
             ->body($this->grid());
     }
 
@@ -37,7 +37,7 @@ class BrandCooperationController extends Controller
     public function edit($id, Content $content)
     {
         return $content
-            ->header('品牌合作编辑')
+            ->header('产品编辑')
             ->body($this->form()->edit($id));
     }
 
@@ -50,7 +50,7 @@ class BrandCooperationController extends Controller
     public function create(Content $content)
     {
         return $content
-            ->header('品牌合作新增')
+            ->header('产品新增')
             ->body($this->form());
     }
 
@@ -61,11 +61,11 @@ class BrandCooperationController extends Controller
      */
     protected function grid()
     {
-        $grid = new Grid(new BrandCooperation);
+        $grid = new Grid(new OwnBrand());
 
-        $grid->id('Id')->sortable();
-        $grid->name('品牌名称');
-        $grid->created_at('添加时间')->sortable();
+        $grid->id('ID')->sortable()->style('vertical-align: middle;');
+        $grid->goods_name('产品名称')->style('vertical-align: middle;');
+        $grid->goods_img('产品图片')->image()->style('vertical-align: middle;');
 
         $grid->actions(function ($actions) {
             $actions->disableView(); // 禁用查看
@@ -84,7 +84,7 @@ class BrandCooperationController extends Controller
             // 去掉默认的id过滤器
             $filter->disableIdFilter();
 
-            $filter->like('name', '品牌名称');
+            $filter->like('name', '产品名称');
         });
 
         return $grid;
@@ -97,23 +97,13 @@ class BrandCooperationController extends Controller
      */
     protected function form()
     {
-        $form = new Form(new BrandCooperation);
+        $form = new Form(new OwnBrand());
 
-        $form->text('name', '品牌名称')->rules('required');
-        $form->UEditor('content', '品牌详情')->rules('required');
-        $form->image('logo', '品牌图标')->rules('required|image');
-        $form->multipleImage('images_url', '品牌图片')->removable()->rules(function ($form) {
-            // 如果不是编辑状态，则添加字段必填验证
-            if (!$id = $form->model()->id) {
-                return 'required|image';
-            } else {
-                return 'image';
-            }
-        });
-        $form->text('company_name', '厂家名称')->disable();
-        $form->text('contact', '联系人')->disable();
-        $form->text('tel', '联系电话')->disable();
-        $form->text('address', '厂家地址')->disable();
+        $form->text('goods_name', '产品名称')->rules('required');
+        $form->UEditor('goods_intro', '产品详情')->rules('required');
+        $form->image('goods_img', '产品图片')->rules('required|image');
+
+        $form->text('goods_type', '产品种类')->disable();
 
         $form->tools(function (Form\Tools $tools) {
             // 去掉`查看`按钮
