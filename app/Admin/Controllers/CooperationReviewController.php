@@ -116,7 +116,7 @@ class CooperationReviewController extends Controller
 
         $show->panel()->tools(function ($tools) {
             $tools->disableEdit();
-        });;
+        });
 
         return $show;
     }

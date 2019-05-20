@@ -88,6 +88,19 @@ Route::group([
     $router->get('cooperation_review', 'CooperationReviewController@index');
     $router->get('cooperation_review/{id}', 'CooperationReviewController@show');
     $router->delete('cooperation_review/{id}', 'CooperationReviewController@destroy');
+
+    // 关于我们
+    $router->get('about_us', 'AboutUsController@index');
+    $router->get('about_us/{id}/edit', 'AboutUsController@edit');
+    $router->put('about_us/{id}', 'AboutUsController@update');
+
+    // 常见问题
+    $router->get('common_problem', 'CommonProblemController@index');
+    $router->get('common_problem/create', 'CommonProblemController@create');
+    $router->post('common_problem', 'CommonProblemController@store');
+    $router->get('common_problem/{id}/edit', 'CommonProblemController@edit');
+    $router->put('common_problem/{id}', 'CommonProblemController@update');
+    $router->delete('common_problem/{id}', 'CommonProblemController@destroy');
 });
 
 
