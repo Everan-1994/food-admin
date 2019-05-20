@@ -42,7 +42,6 @@ class CooperationReviewController extends Controller
     }
 
 
-
     /**
      * Make a grid builder.
      *
@@ -74,7 +73,7 @@ class CooperationReviewController extends Controller
         $grid->disableCreateButton();
 
         // 查询
-        $grid->filter(function($filter){
+        $grid->filter(function ($filter) {
 
             // 去掉默认的id过滤器
             $filter->disableIdFilter();
@@ -103,12 +102,44 @@ class CooperationReviewController extends Controller
         $show->user_tel('联系方式');
         $show->user_email('邮箱');
         $show->user_address('详细地址');
+        $show->images_url('图片描述')->unescape()->as(function ($images_url) {
+            $url = env('APP_URL');
+            $imgs = '';
+            foreach ($images_url as $img) {
+                $imgs .=  "<img class='img-rounded' style='max-width: 30%; height: 150px; 
+                            border: 1px solid #f0f0f0;
+                            margin: 5px;' src='{$url}/storage/{$img}' />";
+            }
+            return $imgs;
+        });
         $show->created_at('提交时间');
 
         $show->panel()->tools(function ($tools) {
-                $tools->disableEdit();
-            });;
+            $tools->disableEdit();
+        });;
 
         return $show;
     }
+
+    public function form()
+    {
+        $form = new Form(new CooperationReview());
+
+//        $form->text('title', '需求标题')->rules('required');
+//        $form->text('user_name', '姓名')->rules('required');
+//        $form->text('user_tel', '联系方式')->rules('required');
+//        $form->text('user_email', '邮箱')->rules('required');
+//        $form->text('user_address', '详细地址')->rules('required');
+//        $form->multipleImage('images_url', '品牌图片')->removable()->rules(function ($form) {
+//            // 如果不是编辑状态，则添加字段必填验证
+//            if (!$id = $form->model()->id) {
+//                return 'required|image';
+//            } else {
+//                return 'image';
+//            }
+//        });
+
+        return $form;
+    }
+
 }

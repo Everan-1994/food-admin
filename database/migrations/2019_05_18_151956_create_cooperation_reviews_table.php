@@ -21,7 +21,7 @@ class CreateCooperationReviewsTable extends Migration
             $table->string('user_email');
             $table->string('user_address');
             $table->string('user_message');
-            $table->string('images_url');
+            $table->string('images_url')->nullable();
             $table->timestamps();
         });
     }
