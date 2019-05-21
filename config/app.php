@@ -167,6 +167,8 @@ return [
          * Package Service Providers...
          */
 
+        Overtrue\LaravelFilesystem\Qiniu\QiniuStorageServiceProvider::class,
+
         /*
          * Application Service Providers...
          */
