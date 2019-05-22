@@ -28,7 +28,7 @@ Route::group([
     // 自由品牌
     $router->get('own_brand', 'EveranController@getOwnBrandList');
     $router->get('own_brand/{id}', 'EveranController@getOwnBrandById')->where(['id' => '[0-9]+']);
-    // 品牌介绍
+    // 品牌介绍 文案 + 图片&视频 轮播
     $router->get('own_brand/intro', 'EveranController@getOwnBrandIntro');
     // 招商代理
     $router->get('merchants_proxy', 'EveranController@getMerchantsProxy');

@@ -54,15 +54,20 @@ Route::group([
 
     // 自有品牌
     $router->get('own_brand', 'OwnBrandController@index');
-    $router->get('own_brand/create', 'OwnBrandController@create');
-    $router->post('own_brand', 'OwnBrandController@store');
     $router->get('own_brand/{id}/edit', 'OwnBrandController@edit');
     $router->put('own_brand/{id}', 'OwnBrandController@update');
     $router->delete('own_brand/{id}', 'OwnBrandController@destroy');
 
-    // 品牌介绍
+    // 品牌介绍 文本轮播
+    $router->get('brand_intro', 'BrandIntroController@index');
+    $router->get('brand_intro/create', 'BrandIntroController@create');
+    $router->post('brand_intro', 'BrandIntroController@store');
     $router->get('brand_intro/{id}/edit', 'BrandIntroController@edit');
     $router->put('brand_intro/{id}', 'BrandIntroController@update');
+
+    // 品牌介绍 视频&图片 轮播
+    $router->get('brand_intro_pv/{id}/edit', 'PictureVideoController@edit');
+    $router->put('brand_intro_pv/{id}', 'PictureVideoController@update');
 
     // 招商代理
     $router->get('merchants_proxy/{id}/edit', 'MerchantsProxyController@edit');

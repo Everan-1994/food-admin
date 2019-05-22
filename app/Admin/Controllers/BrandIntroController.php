@@ -8,11 +8,23 @@ use Encore\Admin\Controllers\HasResourceActions;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
-use Encore\Admin\Show;
 
 class BrandIntroController extends Controller
 {
     use HasResourceActions;
+
+    /**
+     * Index interface.
+     *
+     * @param Content $content
+     * @return Content
+     */
+    public function index(Content $content)
+    {
+        return $content
+            ->header('品牌介绍')
+            ->body($this->grid());
+    }
 
     /**
      * Edit interface.
@@ -24,17 +36,41 @@ class BrandIntroController extends Controller
     public function edit($id, Content $content)
     {
         return $content
-            ->header('品牌介绍')
+            ->header('品牌介绍编辑')
             ->body($this->form()->edit($id));
     }
 
-    public function update($id)
+    /**
+     * Make a grid builder.
+     *
+     * @return Grid
+     */
+    protected function grid()
     {
-        $this->form()->update($id);
+        $grid = new Grid(new BrandIntro());
 
-        admin_toastr('内容更新成功', 'success');
+        $grid->id('#');
+        $grid->title('标题');
+        $grid->created_at('添加时间');
 
-        return redirect('/admin/brand_intro/1/edit');
+        $grid->actions(function ($actions) {
+            $actions->disableView(); // 禁用查看
+            $actions->disableDelete(); // 禁用删除
+        });
+
+        // 禁用新增按钮
+        $grid->disableCreateButton();
+        // 禁用筛选
+        $grid->disableFilter();
+
+        $grid->tools(function ($tools) {
+            // 禁用批量删除按钮
+            $tools->batch(function ($batch) {
+                $batch->disableDelete();
+            });
+        });
+
+        return $grid;
     }
 
     /**
@@ -46,15 +82,12 @@ class BrandIntroController extends Controller
     {
         $form = new Form(new BrandIntro());
 
+        $form->text('title', '标题')->rules('required');
         $form->textarea('intro', '品牌介绍')->rules('required');
         $form->textarea('feature', '品牌特征')->rules('required');
         $form->textarea('idea', '品牌理念')->rules('required');
-        $form->image('brand_image', '品牌图片')->rules('required|image');
-        $form->file('brand_video', '品牌视频')->rules('required|mimetypes:video/avi,video/mp4');
 
         $form->tools(function (Form\Tools $tools) {
-            // 去掉`列表`按钮
-            $tools->disableList();
             // 去掉`删除`按钮
             $tools->disableDelete();
             // 去掉`查看`按钮

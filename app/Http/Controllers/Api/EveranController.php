@@ -13,6 +13,7 @@ use App\Models\Cooperation;
 use App\Models\MerchantsProxy;
 use App\Models\News;
 use App\Models\OwnBrand;
+use App\Models\PictureVideo;
 use App\Models\Server;
 use App\Models\SuperStore;
 use Illuminate\Http\Request;
@@ -126,17 +127,45 @@ class EveranController extends Controller
     }
 
     /**
-     * 自由品牌介绍
+     * 自由品牌介绍 视频&图片 轮播
      * @param BrandIntro $brandIntro
+     * @param PictureVideo $pictureVideo
      * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
      */
-    public function getOwnBrandIntro(BrandIntro $brandIntro)
+    public function getOwnBrandIntro(BrandIntro $brandIntro, PictureVideo $pictureVideo)
     {
         $brand_intro = $brandIntro::query()
-            ->select(['intro', 'feature', 'idea', 'brand_image', 'brand_video'])
+            ->select(['title', 'intro', 'feature', 'idea'])
+            ->get();
+
+        $picture_video = $pictureVideo::query()
+            ->select(['brand_image', 'brand_video'])
             ->find(1);
 
-        return response($brand_intro);
+        $picture_videos = [];
+        if (!empty($picture_video)) {
+            $iamges = [];
+            foreach ($picture_video['brand_image'] as $image) {
+                $iamges[] = [
+                    'type' => 1,
+                    'url' => $image
+                ];
+            }
+
+            $videos = [];
+            foreach ($picture_video['brand_video'] as $video) {
+                $videos[] = [
+                    'type' => 2,
+                    'url' => $video
+                ];
+            }
+            $picture_videos = array_merge($iamges, $videos);
+        }
+
+        return response([
+            'brand_intro' => $brand_intro,
+            'picture_video' => $picture_videos
+        ]);
     }
 
     public function getMerchantsProxy(MerchantsProxy $merchantsProxy)
