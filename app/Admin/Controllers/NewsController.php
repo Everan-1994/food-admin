@@ -5,6 +5,7 @@ namespace App\Admin\Controllers;
 use App\Models\News;
 use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\HasResourceActions;
+use Encore\Admin\Facades\Admin;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
@@ -12,7 +13,7 @@ use Encore\Admin\Show;
 
 class NewsController extends Controller
 {
-    use HasResourceActions;
+    use HasResourceActions, ScriptTrait;
 
     /**
      * Index interface.
@@ -36,6 +37,10 @@ class NewsController extends Controller
      */
     public function edit($id, Content $content)
     {
+        $this->imageOrVideoShow();
+
+        Admin::script($this->script());
+
         return $content
             ->header('编辑新闻')
             ->body($this->form()->edit($id));
@@ -49,6 +54,8 @@ class NewsController extends Controller
      */
     public function create(Content $content)
     {
+        $this->imageOrVideoShow();
+
         return $content
             ->header('添加新闻')
             ->body($this->form());
@@ -82,7 +89,7 @@ class NewsController extends Controller
         });
 
         // 查询
-        $grid->filter(function($filter){
+        $grid->filter(function ($filter) {
 
             // 去掉默认的id过滤器
             $filter->disableIdFilter();
@@ -95,8 +102,6 @@ class NewsController extends Controller
     }
 
     /**
-     * Make a form builder.
-     *
      * @return Form
      */
     protected function form()
@@ -104,9 +109,13 @@ class NewsController extends Controller
         $form = new Form(new News);
 
         $form->text('title', '新闻标题')->rules('required');
-        $form->select('type', '新闻分类')->options(News::$newsType);
+        $form->select('type', '新闻分类')->options(News::$newsType)->rules('required');
         $form->UEditor('content', '新闻详情')->rules('required');
-        $form->image('image', '封面图')->rules('required|image');
+
+        $form->select('resource_type', '封面')->options([1 => '图片', 2 => '视频'])->default(1);
+
+        $form->image('image', '图片')->rules('image');
+        $form->file('video', '视频')->rules('mimetypes:video/avi,video/mp4');
 
         $form->tools(function (Form\Tools $tools) {
             // 去掉`查看`按钮
@@ -119,5 +128,29 @@ class NewsController extends Controller
         });
 
         return $form;
+    }
+
+    protected function imageOrVideoShow() {
+        return Admin::script('
+            $(document).ready(() => {
+                if ($("select[name=resource_type]").val() == 1) {
+                    $(".form-group").eq(5).hide();
+                } else {
+                    $(".form-group").eq(4).hide();
+                }
+            
+                $("select[name=resource_type]").change(function() {
+                  if (this.value == 1) {
+                     $(".form-group").eq(4).show();
+                     $(".form-group").eq(5).hide();
+                  }
+                  
+                  if (this.value == 2) {
+                     $(".form-group").eq(4).hide();
+                     $(".form-group").eq(5).show();
+                  }
+                });
+            });
+        ');
     }
 }

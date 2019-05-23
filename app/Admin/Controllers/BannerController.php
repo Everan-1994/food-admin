@@ -27,21 +27,6 @@ class BannerController extends Controller
     }
 
     /**
-     * Show interface.
-     *
-     * @param mixed $id
-     * @param Content $content
-     * @return Content
-     */
-    public function show($id, Content $content)
-    {
-        return $content
-            ->header('Detail')
-            ->description('description')
-            ->body($this->detail($id));
-    }
-
-    /**
      * Edit interface.
      *
      * @param mixed $id
@@ -51,8 +36,7 @@ class BannerController extends Controller
     public function edit($id, Content $content)
     {
         return $content
-            ->header('Edit')
-            ->description('description')
+            ->header('轮播图编辑')
             ->body($this->form()->edit($id));
     }
 
@@ -78,9 +62,9 @@ class BannerController extends Controller
     {
         $grid = new Grid(new Banner);
 
-        $grid->id('ID')->sortable()->style('vertical-align: middle;');
-        $grid->img_url('图片')->image()->style('vertical-align: middle;');
-        $grid->jump_url('外部链接')->style('vertical-align: middle;');
+        $grid->id('#')->sortable();
+        $grid->img_url('图片')->image();
+        $grid->jump_url('外部链接');
 
         $grid->actions(function ($actions) {
             $actions->disableView(); // 禁用查看
@@ -111,7 +95,8 @@ class BannerController extends Controller
         // 创建一个选择图片的框
         $form->image('img_url', '图片')->rules('required|image');
         // 创建一个输入框，第一个参数 title 是模型的字段名，第二个参数是该字段描述
-        $form->text('jump_url', '外部链接')->placeholder('https://www.baidu.com')->rules('required|url');
+        $form->url('jump_url', '外部链接')->placeholder('https://www.baidu.com')->rules('required|url');
+
 
         $form->tools(function (Form\Tools $tools) {
             // 去掉`查看`按钮
