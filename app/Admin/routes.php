@@ -81,7 +81,7 @@ Route::group([
     $router->put('news/{id}', 'NewsController@update');
     $router->delete('news/{id}', 'NewsController@destroy');
 
-    // 新闻
+    // 联系我们
     $router->get('contact_us', 'ContactUsController@index');
     $router->get('contact_us/create', 'ContactUsController@create');
     $router->post('contact_us', 'ContactUsController@store');
