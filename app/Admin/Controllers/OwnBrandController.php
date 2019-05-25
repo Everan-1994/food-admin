@@ -65,7 +65,7 @@ class OwnBrandController extends Controller
 
         $grid->id('ID')->sortable()->style('vertical-align: middle;');
         $grid->goods_name('产品名称')->style('vertical-align: middle;');
-        $grid->goods_img('产品图片')->image()->style('vertical-align: middle;');
+        $grid->goods_img('产品图片')->style('vertical-align: middle;');
 
         $grid->actions(function ($actions) {
             $actions->disableView(); // 禁用查看
@@ -106,6 +106,14 @@ class OwnBrandController extends Controller
         $form->textarea('goods_intro', '产品介绍')->rules('required');
         $form->UEditor('goods_content', '产品详情')->rules('required');
         $form->image('goods_img', '产品图片')->rules('required|image');
+        $form->multipleImage('images_url', '轮播图')->removable()->rules(function ($form) {
+            // 如果不是编辑状态，则添加字段必填验证
+            if (!$id = $form->model()->id) {
+                return 'required|image';
+            } else {
+                return 'image';
+            }
+        });
 
         $form->text('goods_type', '产品种类')->disable();
 

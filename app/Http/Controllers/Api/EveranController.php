@@ -108,7 +108,7 @@ class EveranController extends Controller
 
     public function getSuperById($id, SuperStore $superStore)
     {
-        $super = $superStore::query()->select(['id', 'name', 'logo', 'intro', 'content'])->find($id);
+        $super = $superStore::query()->select(['id', 'name', 'logo', 'images_url', 'intro', 'content'])->find($id);
 
         return response($super);
     }
