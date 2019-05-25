@@ -209,7 +209,7 @@ class EveranController extends Controller
     public function getNewsList(Request $request, News $news)
     {
         $list = $news::query()
-            ->select(['id', 'type', 'title', 'image', 'intro', 'from'])
+            ->select(['id', 'type', 'title', 'image', 'intro', 'from', 'created_at'])
             ->where('type', $request->input('type', 0))
             ->get();
 
@@ -219,7 +219,7 @@ class EveranController extends Controller
     public function getNewsById($id, News $news)
     {
         $news_detail = $news::query()
-            ->select(['id', 'type', 'title', 'image', 'intro', 'from', 'content',])
+            ->select(['id', 'type', 'title', 'image', 'intro', 'from', 'content', 'created_at'])
             ->find($id);
 
         return response($news_detail);
