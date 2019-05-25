@@ -380,6 +380,15 @@ return [
                 ]
             ],
             // 'field_type' => '自定义名字'
-        ]
+        ],
+        'latlong' => [
+            'enable' => true,
+            'default' => 'baidu',
+            'providers' => [
+                'baidu' => [
+                    'api_key' => 'F7n1eSw8gZamtQhXXx9656DPeSfLYpGG',
+                ],
+            ]
+        ],
     ],
 ];
