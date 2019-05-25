@@ -143,7 +143,7 @@ class EveranController extends Controller
     public function getOwnBrandById($id, OwnBrand $ownBrand)
     {
         $brand = $ownBrand::query()
-            ->select(['id', 'goods_name', 'goods_img', 'goods_intro', 'goods_content'])
+            ->select(['id', 'goods_name', 'goods_img', 'images_url', 'goods_intro', 'goods_content'])
             ->find($id);
 
         return response($brand);
