@@ -234,7 +234,7 @@ class EveranController extends Controller
     public function getContactUsList(Request $request, ContactUs $contactUs)
     {
         $list = $contactUs::query()
-            ->select(['name', 'tel', 'contact', 'address', 'latitude_longitude'])
+            ->select(['name', 'tel', 'contact', 'address', 'latitude', 'longitude'])
             ->when($request->exists('name'), function ($query) use ($request) {
                 $query->where('name', 'like', '%'. $request->input('name') .'%');
             })

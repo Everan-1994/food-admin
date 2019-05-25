@@ -110,7 +110,7 @@ class ContactUsController extends Controller
         $form->text('contact', '联系人')->rules('required');
         $form->text('address', '公司地址')->rules('required');
 
-        $form->latlong('latitude', 'longitude', '门店定位');
+        $form->latlong('latitude', 'longitude', '门店定位')->rules('required');
 
         $form->tools(function (Form\Tools $tools) {
             // 去掉`查看`按钮
