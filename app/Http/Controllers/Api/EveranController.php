@@ -96,14 +96,19 @@ class EveranController extends Controller
 
     /**
      * 商超合作列表
+     * @param Request $request
      * @param SuperStore $superStore
      * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
      */
-    public function getSuperList(SuperStore $superStore)
+    public function getSuperList(Request $request, SuperStore $superStore)
     {
         $super = $superStore::query()->select(['id', 'name', 'logo', 'intro'])->get();
 
-        return response(array_chunk($super->toArray(), 4));
+        if ($request->input('chunk', false)) {
+            return response(array_chunk($super->toArray(), 4));
+        }
+
+        return response($super);
     }
 
     public function getSuperById($id, SuperStore $superStore)
