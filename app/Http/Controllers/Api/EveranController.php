@@ -102,7 +102,7 @@ class EveranController extends Controller
     {
         $super = $superStore::query()->select(['id', 'name', 'logo', 'intro'])->get();
 
-        return response(array_chunk($super->toArray(), 2));
+        return response(array_chunk($super->toArray(), 4));
     }
 
     public function getSuperById($id, SuperStore $superStore)
