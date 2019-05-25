@@ -79,7 +79,7 @@ class EveranController extends Controller
      */
     public function getSuperList(SuperStore $superStore)
     {
-        $super = $superStore::query()->select(['id', 'name', 'logo', 'content'])->get();
+        $super = $superStore::query()->select(['id', 'name', 'logo', 'content'])->get()->chunk(4);
 
         return response($super);
     }

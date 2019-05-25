@@ -15,6 +15,9 @@ class CreateCompanyCulturesTable extends Migration
     {
         Schema::create('company_cultures', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->string('name');
+            $table->string('en_name');
+            $table->string('image_url');
             $table->timestamps();
         });
     }

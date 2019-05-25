@@ -15,35 +15,6 @@ class CompanyCultureController extends Controller
     use HasResourceActions;
 
     /**
-     * Index interface.
-     *
-     * @param Content $content
-     * @return Content
-     */
-    public function index(Content $content)
-    {
-        return $content
-            ->header('Index')
-            ->description('description')
-            ->body($this->grid());
-    }
-
-    /**
-     * Show interface.
-     *
-     * @param mixed $id
-     * @param Content $content
-     * @return Content
-     */
-    public function show($id, Content $content)
-    {
-        return $content
-            ->header('Detail')
-            ->description('description')
-            ->body($this->detail($id));
-    }
-
-    /**
      * Edit interface.
      *
      * @param mixed $id
@@ -53,52 +24,21 @@ class CompanyCultureController extends Controller
     public function edit($id, Content $content)
     {
         return $content
-            ->header('Edit')
-            ->description('description')
+            ->header('企业文化')
             ->body($this->form()->edit($id));
     }
 
     /**
-     * Create interface.
-     *
-     * @param Content $content
-     * @return Content
+     * @param $id
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function create(Content $content)
+    public function update($id)
     {
-        return $content
-            ->header('Create')
-            ->description('description')
-            ->body($this->form());
-    }
+        $this->form()->update($id);
 
-    /**
-     * Make a grid builder.
-     *
-     * @return Grid
-     */
-    protected function grid()
-    {
-        $grid = new Grid(new CompanyCulture);
+        admin_toastr('内容更新成功', 'success');
 
-
-
-        return $grid;
-    }
-
-    /**
-     * Make a show builder.
-     *
-     * @param mixed $id
-     * @return Show
-     */
-    protected function detail($id)
-    {
-        $show = new Show(CompanyCulture::findOrFail($id));
-
-
-
-        return $show;
+        return redirect('/admin/company_culture/1/edit');
     }
 
     /**
@@ -108,9 +48,30 @@ class CompanyCultureController extends Controller
      */
     protected function form()
     {
-        $form = new Form(new CompanyCulture);
+        $form = new Form(new CompanyCulture());
+
+        $form->text('name', '企业名称')->rules('required');
+        $form->text('en_name', '企业名称(en)')->rules('required');
+        $form->image('image_url', '图片')->rules('required|image');
+
+        $form->tools(function (Form\Tools $tools) {
+            // 去掉`列表`按钮
+            $tools->disableList();
+            // 去掉`删除`按钮
+            $tools->disableDelete();
+            // 去掉`查看`按钮
+            $tools->disableView();
+        });
 
 
+        $form->footer(function ($footer) {
+            // 去掉`查看`checkbox
+            $footer->disableViewCheck();
+            // 去掉`继续编辑`checkbox
+            $footer->disableEditingCheck();
+            // 去掉`继续创建`checkbox
+            $footer->disableCreatingCheck();
+        });
 
         return $form;
     }

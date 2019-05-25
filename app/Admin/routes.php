@@ -20,6 +20,10 @@ Route::group([
     $router->put('banners/{id}', 'BannerController@update');
     $router->delete('banners/{id}', 'BannerController@destroy');
 
+    // 企业文化
+    $router->get('company_culture/{id}/edit', 'CompanyCultureController@edit');
+    $router->put('company_culture/{id}', 'CompanyCultureController@update');
+
     // 底部内容
     $router->get('culture/{id}/edit', 'CultureController@edit');
     $router->put('culture/{id}', 'CultureController@update');
