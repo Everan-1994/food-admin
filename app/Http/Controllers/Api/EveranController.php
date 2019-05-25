@@ -211,7 +211,7 @@ class EveranController extends Controller
         $list = $news::query()
             ->select(['id', 'type', 'title', 'image', 'intro', 'from', 'created_at'])
             ->where('type', $request->input('type', 0))
-            ->get();
+            ->paginate($request->input('pageSize', 10), ['*'], 'page', $request->input('page', 1));;
 
         return response($list);
     }

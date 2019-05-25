@@ -111,7 +111,7 @@ class ContactUsController extends Controller
         $form->text('address', '公司地址')->rules('required');
         $form->text('latitude_longitude', '门店坐标')->rules('required')->placeholder('详细坐标，请到百度地图查找。');
         $form->latlong('latitude', 'longitude', '定位');
-        
+
         $form->tools(function (Form\Tools $tools) {
             // 去掉`查看`按钮
             $tools->disableView();
