@@ -65,7 +65,7 @@ class OwnBrandController extends Controller
 
         $grid->id('ID')->sortable()->style('vertical-align: middle;');
         $grid->goods_name('产品名称')->style('vertical-align: middle;');
-        $grid->goods_img('产品图片')->style('vertical-align: middle;');
+        $grid->goods_img('产品图片')->style('vertical-align: middle;')->image();
 
         $grid->actions(function ($actions) {
             $actions->disableView(); // 禁用查看
