@@ -216,6 +216,9 @@ class EveranController extends Controller
         $list = $news::query()
             ->select(['id', 'type', 'title', 'image', 'intro', 'from', 'created_at'])
             ->where('type', $request->input('type', 0))
+            ->when($request->exists('keyword'), function ($query) use ($request) {
+                $query->where('keyword', 'like', '%'. $request->input('keyword') .'%');
+            })
             ->paginate($request->input('pageSize', 10), ['*'], 'page', $request->input('page', 1));;
 
         return response($list);
