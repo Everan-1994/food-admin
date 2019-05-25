@@ -17,6 +17,7 @@ class CreateSuperStoresTable extends Migration
             $table->bigIncrements('id');
             $table->string('name');
             $table->text('content');
+            $table->string('intro');
             $table->string('logo');
             $table->string('images_url');
             $table->string('company_name')->nullable();

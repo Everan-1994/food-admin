@@ -19,6 +19,7 @@ class CreateOwnBrandsTable extends Migration
             $table->string('goods_type')->nullable();
             $table->string('goods_img');
             $table->string('goods_intro');
+            $table->text('goods_content');
             $table->timestamps();
         });
     }

@@ -58,6 +58,8 @@ Route::group([
 
     // 自有品牌
     $router->get('own_brand', 'OwnBrandController@index');
+    $router->get('own_brand/create', 'OwnBrandController@create');
+    $router->post('own_brand', 'OwnBrandController@store');
     $router->get('own_brand/{id}/edit', 'OwnBrandController@edit');
     $router->put('own_brand/{id}', 'OwnBrandController@update');
     $router->delete('own_brand/{id}', 'OwnBrandController@destroy');

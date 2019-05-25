@@ -53,6 +53,7 @@ class CompanyCultureController extends Controller
         $form->text('name', '企业名称')->rules('required');
         $form->text('en_name', '企业名称(en)')->rules('required');
         $form->image('image_url', '图片')->rules('required|image');
+        $form->UEditor('content', '内容')->rules('required');
 
         $form->tools(function (Form\Tools $tools) {
             // 去掉`列表`按钮

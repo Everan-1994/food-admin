@@ -8,6 +8,10 @@ Route::group([
 
     // banner
     $router->get('banner', 'EveranController@getBannerList');
+    // 企业文化
+    $router->get('company_culture', 'EveranController@getCompanyCulture');
+    // 底部内如
+    $router->get('footer', 'EveranController@getFooter');
 
     // 合作品牌
     $router->get('brand', 'EveranController@getBrandList');

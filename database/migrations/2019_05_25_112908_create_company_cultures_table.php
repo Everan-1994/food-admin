@@ -18,6 +18,7 @@ class CreateCompanyCulturesTable extends Migration
             $table->string('name');
             $table->string('en_name');
             $table->string('image_url');
+            $table->text('content');
             $table->timestamps();
         });
     }

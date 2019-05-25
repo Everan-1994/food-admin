@@ -100,7 +100,8 @@ class OwnBrandController extends Controller
         $form = new Form(new OwnBrand());
 
         $form->text('goods_name', '产品名称')->rules('required');
-        $form->UEditor('goods_intro', '产品详情')->rules('required');
+        $form->textarea('goods_intro', '产品介绍')->rules('required');
+        $form->UEditor('goods_content', '产品详情')->rules('required');
         $form->image('goods_img', '产品图片')->rules('required|image');
 
         $form->text('goods_type', '产品种类')->disable();

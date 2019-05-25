@@ -8,8 +8,10 @@ use App\Models\Banner;
 use App\Models\BrandCooperation;
 use App\Models\BrandIntro;
 use App\Models\CommonProblem;
+use App\Models\CompanyCulture;
 use App\Models\ContactUs;
 use App\Models\Cooperation;
+use App\Models\Culture;
 use App\Models\MerchantsProxy;
 use App\Models\News;
 use App\Models\OwnBrand;
@@ -28,9 +30,28 @@ class EveranController extends Controller
      */
     public function getBannerList(Banner $banner)
     {
-        $banner = $banner::query()->select(['id', 'img_url', 'jump_url'])->get();
+        $banners = $banner::query()->select(['id', 'img_url', 'jump_url'])->get();
 
-        return response($banner);
+        return response($banners);
+    }
+
+    /**
+     * 企业文化
+     * @param CompanyCulture $companyCulture
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
+     */
+    public function getCompanyCulture(CompanyCulture $companyCulture)
+    {
+        $company_culture = $companyCulture::query()->select(['id', 'name', 'en_name', 'image_url', 'content'])->find(1);
+
+        return response($company_culture);
+    }
+
+    public function getFooter(Culture $culture)
+    {
+        $_culture = $culture::query()->select(['id', 'name', 'en_name', 'image_url', 'content'])->find(1);
+
+        return response($_culture);
     }
 
     /**
@@ -79,14 +100,14 @@ class EveranController extends Controller
      */
     public function getSuperList(SuperStore $superStore)
     {
-        $super = $superStore::query()->select(['id', 'name', 'logo', 'content'])->get()->chunk(4);
+        $super = $superStore::query()->select(['id', 'name', 'logo', 'intro'])->get();
 
-        return response($super);
+        return response(array_chunk($super->toArray(), 2));
     }
 
     public function getSuperById($id, SuperStore $superStore)
     {
-        $super = $superStore::query()->select(['id', 'name', 'logo', 'content'])->find($id);
+        $super = $superStore::query()->select(['id', 'name', 'logo', 'intro', 'content'])->find($id);
 
         return response($super);
     }
@@ -121,7 +142,7 @@ class EveranController extends Controller
     public function getOwnBrandById($id, OwnBrand $ownBrand)
     {
         $brand = $ownBrand::query()
-            ->select(['id', 'goods_name', 'goods_img', 'goods_intro'])
+            ->select(['id', 'goods_name', 'goods_img', 'goods_intro', 'goods_content'])
             ->find($id);
 
         return response($brand);
