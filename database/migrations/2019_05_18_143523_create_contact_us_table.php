@@ -19,7 +19,8 @@ class CreateContactUsTable extends Migration
             $table->string('tel');
             $table->string('contact');
             $table->string('address');
-            $table->string('latitude_longitude');
+            $table->string('latitude');
+            $table->string('longitude');
             $table->timestamps();
         });
     }
