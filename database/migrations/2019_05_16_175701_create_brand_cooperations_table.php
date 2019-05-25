@@ -18,7 +18,7 @@ class CreateBrandCooperationsTable extends Migration
             $table->string('name');
             $table->text('content');
             $table->string('logo');
-            $table->string('images_url');
+            $table->string('logo_hover');
             $table->string('company_name')->nullable();
             $table->string('contact')->nullable();
             $table->string('tel')->nullable();

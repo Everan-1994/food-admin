@@ -35,19 +35,20 @@ class EveranController extends Controller
 
     /**
      * 获取品牌合作列表
+     * @param Request $request
      * @param BrandCooperation $brandCooperation
      * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
      */
-    public function getBrandList(BrandCooperation $brandCooperation)
+    public function getBrandList(Request $request, BrandCooperation $brandCooperation)
     {
-        $brand = $brandCooperation::query()->select(['id', 'name', 'logo'])->get()->chunk(3);
+        $brand = $brandCooperation::query()->select(['id', 'name', 'logo', 'logo_hover'])->paginate($request->input('pageSize', 9));
 
         return response($brand);
     }
 
     public function getBrandById($id, BrandCooperation $brandCooperation)
     {
-        $brand = $brandCooperation::query()->select(['id', 'name', 'logo'])->find($id);
+        $brand = $brandCooperation::query()->select(['id', 'name', 'logo', 'logo_hover'])->find($id);
 
         return response($brand);
     }

@@ -102,14 +102,15 @@ class BrandCooperationController extends Controller
         $form->text('name', '品牌名称')->rules('required');
         $form->UEditor('content', '品牌详情')->rules('required');
         $form->image('logo', '品牌图标')->rules('required|image');
-        $form->multipleImage('images_url', '品牌图片')->removable()->rules(function ($form) {
-            // 如果不是编辑状态，则添加字段必填验证
-            if (!$id = $form->model()->id) {
-                return 'required|image';
-            } else {
-                return 'image';
-            }
-        });
+        $form->image('logo_hover', '品牌图标(hover)')->rules('required|image');
+//        $form->multipleImage('images_url', '品牌图片')->removable()->rules(function ($form) {
+//            // 如果不是编辑状态，则添加字段必填验证
+//            if (!$id = $form->model()->id) {
+//                return 'required|image';
+//            } else {
+//                return 'image';
+//            }
+//        });
         $form->text('company_name', '厂家名称')->disable();
         $form->text('contact', '联系人')->disable();
         $form->text('tel', '联系电话')->disable();
