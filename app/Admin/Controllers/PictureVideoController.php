@@ -42,8 +42,8 @@ class PictureVideoController extends Controller
     {
         $form = new Form(new PictureVideo());
 
-         $form->multipleImage('brand_image', '品牌图片')->removable()->rules('required|image');
-         $form->multipleFile('brand_video', '品牌视频')->removable()->rules('required|mimetypes:video/avi,video/mp4');
+         $form->multipleImage('brand_image', '品牌图片')->removable()->rules('image');
+         $form->multipleFile('brand_video', '品牌视频')->removable()->rules('mimetypes:video/avi,video/mp4');
 
         $form->tools(function (Form\Tools $tools) {
             // 去掉`列表`按钮

@@ -75,6 +75,7 @@ class NewsController extends Controller
         $grid->type('新闻分类')->display(function ($type) {
             return News::$newsType[$type];
         });
+        $grid->from('新闻来源');
         $grid->created_at('添加时间')->sortable();
 
         $grid->actions(function ($actions) {
@@ -110,6 +111,8 @@ class NewsController extends Controller
 
         $form->text('title', '新闻标题')->rules('required');
         $form->select('type', '新闻分类')->options(News::$newsType)->rules('required');
+        $form->textarea('intro', '新闻简介')->rules('required');
+        $form->text('from', '新闻来源')->rules('required');
         $form->UEditor('content', '新闻详情')->rules('required');
 
         $form->select('resource_type', '封面')->options([1 => '图片', 2 => '视频'])->default(1);

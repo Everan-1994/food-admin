@@ -15,8 +15,8 @@ class CreatePictureVideosTable extends Migration
     {
         Schema::create('picture_videos', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('brand_image');
-            $table->string('brand_video');
+            $table->string('brand_image')->nullable();
+            $table->string('brand_video')->nullable();
             $table->timestamps();
         });
     }
