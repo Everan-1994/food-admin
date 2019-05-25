@@ -87,6 +87,9 @@ class OwnBrandController extends Controller
             $filter->like('name', '产品名称');
         });
 
+        // 设置默认显示数
+        $grid->paginate(10);
+
         return $grid;
     }
 
