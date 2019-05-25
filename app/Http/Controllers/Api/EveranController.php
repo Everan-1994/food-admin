@@ -49,7 +49,7 @@ class EveranController extends Controller
 
     public function getFooter(Culture $culture)
     {
-        $_culture = $culture::query()->select(['id', 'name', 'en_name', 'image_url', 'content'])->find(1);
+        $_culture = $culture::query()->select(['id', 'logo', 'name', 'tel', 'address', 'wx_qrcode', 'kf_qrcode'])->find(1);
 
         return response($_culture);
     }
