@@ -17,6 +17,7 @@ use App\Models\News;
 use App\Models\OwnBrand;
 use App\Models\PictureVideo;
 use App\Models\Server;
+use App\Models\SuperServer;
 use App\Models\SuperStore;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -113,13 +114,13 @@ class EveranController extends Controller
     }
 
     /**
-     * 获取品牌服务理念
-     * @param SuperStore $superStore
+     * 获取商超服务理念
+     * @param SuperServer $superServer
      * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
      */
-    public function getSuperServer(SuperStore $superStore)
+    public function getSuperServer(SuperServer $superServer)
     {
-        $super = $superStore::query()->select(['id', 'content', 'images_url'])->find(1);
+        $super = $superServer::query()->select(['id', 'content', 'images_url'])->find(1);
 
         return response($super);
     }
