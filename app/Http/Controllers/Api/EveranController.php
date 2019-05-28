@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\NewsResource;
 use App\Models\AboutUs;
 use App\Models\Banner;
 use App\Models\BrandCooperation;
@@ -221,7 +222,7 @@ class EveranController extends Controller
             })
             ->paginate($request->input('pageSize', 10), ['*'], 'page', $request->input('page', 1));;
 
-        return response($list);
+        return response(NewsResource::collection($list));
     }
 
     public function getNewsById($id, News $news)
@@ -230,7 +231,7 @@ class EveranController extends Controller
             ->select(['id', 'type', 'title', 'image', 'intro', 'from', 'content', 'created_at'])
             ->find($id);
 
-        return response($news_detail);
+        return response(new NewsResource($news_detail));
     }
 
     /**
