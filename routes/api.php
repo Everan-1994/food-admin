@@ -4,6 +4,7 @@ Route::group([
     'namespace'     => 'Api',
 ], function (\Illuminate\Routing\Router $router) {
     // 留言申请
+    $router->post('uploads', 'CooperationController@uploads');
     $router->post('submit_cooperation', 'CooperationController@store');
 
     // banner

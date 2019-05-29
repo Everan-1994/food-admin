@@ -19,7 +19,7 @@ class CooperationController extends Controller
             'user_email'   => 'required|email',
             'user_address' => 'required',
             'user_message' => 'required',
-            'images_url'   => 'required|image',
+            'images_url'   => 'required|array',
         ]);
 
         if (!$validator->fails()) {
@@ -29,12 +29,6 @@ class CooperationController extends Controller
             ], 401);
         }
 
-        $images_url = []; // 图片地址
-
-        foreach ($request->file('images_url') as $k => $file) {
-            $images_url[] = Storage::put('public/apply', $file, 'public');
-        }
-
         $data = [
             'title'        => $request->input('title'),
             'user_name'    => $request->input('user_name'),
@@ -42,7 +36,7 @@ class CooperationController extends Controller
             'user_email'   => $request->input('user_email'),
             'user_address' => $request->input('user_address'),
             'user_message' => $request->input('user_message'),
-            'images_url'   => json_encode($images_url),
+            'images_url'   => $request->input('images_url'),
         ];
 
         try {
@@ -57,11 +51,24 @@ class CooperationController extends Controller
             ], 201);
 
         } catch (\Exception $exception) {
-            Storage::delete($images_url); // 移除文件
+            // Storage::delete($images_url); // 移除文件
             return response([
                 'code'    => 0,
                 'message' => '提交失败',
             ], 401);
         }
+    }
+
+    public function uploads(Request $request)
+    {
+        $images_url = []; // 图片地址
+
+        if ($request->exists('images_url')) {
+            foreach ($request->file('images_url') as $k => $file) {
+                $images_url[] = Storage::put('public/apply', $file, 'public');
+            }
+        }
+
+        return response($images_url);
     }
 }

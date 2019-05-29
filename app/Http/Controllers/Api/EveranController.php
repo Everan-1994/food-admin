@@ -215,7 +215,7 @@ class EveranController extends Controller
     public function getNewsList(Request $request, News $news)
     {
         $list = $news::query()
-            ->select(['id', 'type', 'title', 'image', 'intro', 'from', 'created_at'])
+            ->select(['id', 'type', 'title', 'image', 'intro', 'resource_type', 'from', 'created_at'])
             ->where('type', $request->input('type', 0))
             ->when($request->exists('keyword'), function ($query) use ($request) {
                 $query->where('title', 'like', '%'. $request->input('keyword') .'%');
@@ -228,7 +228,7 @@ class EveranController extends Controller
     public function getNewsById($id, News $news)
     {
         $news_detail = $news::query()
-            ->select(['id', 'type', 'title', 'image', 'intro', 'from', 'content', 'created_at'])
+            ->select(['id', 'type', 'title', 'image', 'intro', 'resource_type', 'from', 'content', 'created_at'])
             ->find($id);
 
         return response(new NewsResource($news_detail));
