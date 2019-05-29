@@ -19,6 +19,7 @@ class NewsResource extends JsonResource
             'type'          => $this->type,
             'title'         => $this->title,
             'image'         => $this->image,
+            'video'         => $this->video,
             'intro'         => $this->intro,
             'resource_type' => $this->resource_type,
             'content'       => $this->content,
