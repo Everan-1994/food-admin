@@ -65,7 +65,7 @@ class CooperationController extends Controller
 
         if ($request->exists('images_url')) {
             foreach ($request->file('images_url') as $k => $file) {
-                $images_url[] = Storage::put('public/apply', $file, 'public');
+                $images_url[] = Storage::disk('qiniu')->put('apply', $file);
             }
         }
 
