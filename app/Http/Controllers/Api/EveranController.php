@@ -233,7 +233,7 @@ class EveranController extends Controller
             })
             ->where('is_show', 1)
             ->orderBy('sort', 'desc')
-            ->paginate($request->input('pageSize', 10), ['*'], 'page', $request->input('page', 1));;
+            ->paginate($request->input('pageSize', 10), ['*'], 'page', $request->input('page', 1));
 
         return response(NewsResource::collection($list));
     }
@@ -278,12 +278,9 @@ class EveranController extends Controller
         // 常见问题
         $common_problem = $commonProblem::query()
             ->select(['question', 'answer'])
-            ->when($request->exists('pageSize'), function ($query) use ($request){
-                $query->limit($request->input('pageSize'));
-            })
             ->where('is_show', 1)
             ->orderBy('sort', 'desc')
-            ->get();
+            ->paginate($request->input('pageSize', 10), ['*'], 'page', $request->input('page', 1));
 
         return response([
             'about_us' => $about_us,
