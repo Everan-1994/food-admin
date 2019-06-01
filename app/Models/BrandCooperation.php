@@ -8,7 +8,7 @@ class BrandCooperation extends Model
 {
     protected $fillable = [
         'name', 'content', 'logo', 'logo_hover',
-         'company_name', 'contact', 'tel', 'address'
+         'company_name', 'contact', 'tel', 'address', 'is_show', 'sort'
     ];
 
 //    public function setImagesUrlAttribute($images)

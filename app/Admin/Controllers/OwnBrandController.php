@@ -66,6 +66,8 @@ class OwnBrandController extends Controller
         $grid->id('ID')->sortable()->style('vertical-align: middle;');
         $grid->goods_name('产品名称')->style('vertical-align: middle;');
         $grid->goods_img('产品图片')->style('vertical-align: middle;')->image();
+        $grid->is_show('是否显示')->editable('select', [1 => '显示', 0 => '隐藏']);
+        $grid->sort('排序')->editable()->sortable();
 
         $grid->actions(function ($actions) {
             $actions->disableView(); // 禁用查看
@@ -85,6 +87,7 @@ class OwnBrandController extends Controller
             $filter->disableIdFilter();
 
             $filter->like('name', '产品名称');
+            $filter->equal('is_show', '显隐')->radio([1 => '显示', 0 => '隐藏']);
         });
 
         // 设置默认显示数
@@ -114,6 +117,8 @@ class OwnBrandController extends Controller
                 return 'image';
             }
         });
+        $form->radio('is_show', '显示&隐藏')->options([1 => '显示', 0 => '隐藏'])->default(1);
+        $form->text('sort', '排序')->default(0);
 
         $form->text('goods_type', '产品种类')->disable();
 

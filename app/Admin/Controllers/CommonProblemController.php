@@ -66,6 +66,8 @@ class CommonProblemController extends Controller
         $grid->id('#');
         $grid->question('问题');
         $grid->answer('答案');
+        $grid->is_show('是否显示')->editable('select', [1 => '显示', 0 => '隐藏']);
+        $grid->sort('排序')->editable()->sortable();
         $grid->created_at('添加时间')->sortable();
 
         $grid->actions(function ($actions) {
@@ -89,6 +91,8 @@ class CommonProblemController extends Controller
                 $query->where('question', 'like', "%{$this->input}%")
                       ->orWhere('answer', 'like', "%{$this->input}%");
             }, '关键字');
+
+            $filter->equal('is_show', '显隐')->radio([1 => '显示', 0 => '隐藏']);
         });
 
         return $grid;
@@ -105,6 +109,8 @@ class CommonProblemController extends Controller
 
         $form->text('question', '问题')->rules('required');
         $form->textarea('answer', '答案')->rules('required');
+        $form->radio('is_show', '显示&隐藏')->options([1 => '显示', 0 => '隐藏'])->default(1);
+        $form->text('sort', '排序')->default(0);
 
         $form->tools(function (Form\Tools $tools) {
             // 去掉`查看`按钮

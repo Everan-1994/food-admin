@@ -17,6 +17,8 @@ class CreateCommonProblemsTable extends Migration
             $table->bigIncrements('id');
             $table->string('question');
             $table->string('answer');
+            $table->tinyInteger('is_show')->default(1);
+            $table->tinyInteger('sort')->default(0);
             $table->timestamps();
         });
     }

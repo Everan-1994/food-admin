@@ -19,7 +19,6 @@ class CooperationController extends Controller
             'user_email'   => 'required|email',
             'user_address' => 'required',
             'user_message' => 'required',
-            'images_url'   => 'required|array',
         ]);
 
         if (!$validator->fails()) {
@@ -36,7 +35,7 @@ class CooperationController extends Controller
             'user_email'   => $request->input('user_email'),
             'user_address' => $request->input('user_address'),
             'user_message' => $request->input('user_message'),
-            'images_url'   => $request->input('images_url'),
+            'images_url'   => $request->input('images_url', json_encode([])),
         ];
 
         try {

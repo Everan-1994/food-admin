@@ -65,6 +65,8 @@ class BrandCooperationController extends Controller
 
         $grid->id('Id')->sortable();
         $grid->name('品牌名称');
+        $grid->is_show('是否显示')->editable('select', [1 => '显示', 0 => '隐藏']);
+        $grid->sort('排序')->editable()->sortable();
         $grid->created_at('添加时间')->sortable();
 
         $grid->actions(function ($actions) {
@@ -85,6 +87,7 @@ class BrandCooperationController extends Controller
             $filter->disableIdFilter();
 
             $filter->like('name', '品牌名称');
+            $filter->equal('is_show', '显隐')->radio([1 => '显示', 0 => '隐藏']);
         });
 
         return $grid;
@@ -111,6 +114,9 @@ class BrandCooperationController extends Controller
 //                return 'image';
 //            }
 //        });
+        $form->radio('is_show', '显示&隐藏')->options([1 => '显示', 0 => '隐藏'])->default(1);
+        $form->text('sort', '排序')->default(0);
+        
         $form->text('company_name', '厂家名称')->disable();
         $form->text('contact', '联系人')->disable();
         $form->text('tel', '联系电话')->disable();

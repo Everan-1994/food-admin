@@ -8,7 +8,7 @@ class SuperStore extends Model
 {
     protected $fillable = [
         'name', 'content', 'logo', 'images_url', 'intro',
-        'company_name', 'contact', 'tel', 'address'
+        'company_name', 'contact', 'tel', 'address', 'is_show', 'sort'
     ];
 
     public function setImagesUrlAttribute($images)

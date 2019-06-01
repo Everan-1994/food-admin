@@ -7,6 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 class CommonProblem extends Model
 {
     protected $fillable = [
-        'question', 'answer'
+        'question', 'answer', 'is_show', 'sort'
     ];
 }

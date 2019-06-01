@@ -32,7 +32,10 @@ class EveranController extends Controller
      */
     public function getBannerList(Banner $banner)
     {
-        $banners = $banner::query()->select(['id', 'img_url', 'jump_url'])->get();
+        $banners = $banner::query()->select(['id', 'img_url', 'jump_url'])
+            ->where('is_show', 1)
+            ->orderBy('sort', 'desc')
+            ->get();
 
         return response($banners);
     }
@@ -64,7 +67,10 @@ class EveranController extends Controller
      */
     public function getBrandList(Request $request, BrandCooperation $brandCooperation)
     {
-        $brand = $brandCooperation::query()->select(['id', 'name', 'logo', 'logo_hover'])->paginate($request->input('pageSize', 9));
+        $brand = $brandCooperation::query()->select(['id', 'name', 'logo', 'logo_hover'])
+            ->where('is_show', 1)
+            ->orderBy('sort', 'desc')
+            ->paginate($request->input('pageSize', 9));
 
         return response($brand);
     }
@@ -103,7 +109,10 @@ class EveranController extends Controller
      */
     public function getSuperList(Request $request, SuperStore $superStore)
     {
-        $super = $superStore::query()->select(['id', 'name', 'logo', 'intro'])->get();
+        $super = $superStore::query()->select(['id', 'name', 'logo', 'intro'])
+            ->where('is_show', 1)
+            ->orderBy('sort', 'desc')
+            ->get();
 
         if ($request->input('chunk', false)) {
             return response(array_chunk($super->toArray(), 4));
@@ -141,6 +150,8 @@ class EveranController extends Controller
     {
         $list = $ownBrand::query()
             ->select(['id', 'goods_name', 'goods_img', 'goods_intro'])
+            ->where('is_show', 1)
+            ->orderBy('sort', 'desc')
             ->paginate($request->input('pageSize', 6), ['*'], 'page', $request->input('page', 1));
 
         return response($list);
@@ -220,6 +231,8 @@ class EveranController extends Controller
             ->when($request->exists('keyword'), function ($query) use ($request) {
                 $query->where('title', 'like', '%'. $request->input('keyword') .'%');
             })
+            ->where('is_show', 1)
+            ->orderBy('sort', 'desc')
             ->paginate($request->input('pageSize', 10), ['*'], 'page', $request->input('page', 1));;
 
         return response(NewsResource::collection($list));
@@ -229,6 +242,7 @@ class EveranController extends Controller
     {
         $news_detail = $news::query()
             ->select(['id', 'type', 'title', 'image', 'video', 'intro', 'resource_type', 'from', 'content', 'created_at'])
+            ->where('is_show', 1)
             ->find($id);
 
         return response(new NewsResource($news_detail));
@@ -247,12 +261,14 @@ class EveranController extends Controller
             ->when($request->exists('name'), function ($query) use ($request) {
                 $query->where('name', 'like', '%'. $request->input('name') .'%');
             })
+            ->where('is_show', 1)
+            ->orderBy('sort', 'desc')
             ->get();
 
         return response($list);
     }
 
-    public function getAboutUsAndCommonProblem(AboutUs $aboutUs, CommonProblem $commonProblem)
+    public function getAboutUsAndCommonProblem(Request $request, AboutUs $aboutUs, CommonProblem $commonProblem)
     {
         // 关于我们
         $about_us = $aboutUs::query()
@@ -262,6 +278,11 @@ class EveranController extends Controller
         // 常见问题
         $common_problem = $commonProblem::query()
             ->select(['question', 'answer'])
+            ->when($request->exists('pageSize'), function ($query) use ($request){
+                $query->limit($request->input('pageSize'));
+            })
+            ->where('is_show', 1)
+            ->orderBy('sort', 'desc')
             ->get();
 
         return response([

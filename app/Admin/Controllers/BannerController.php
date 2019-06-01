@@ -65,6 +65,8 @@ class BannerController extends Controller
         $grid->id('#')->sortable();
         $grid->img_url('图片')->image();
         $grid->jump_url('外部链接');
+        $grid->is_show('是否显示')->editable('select', [1 => '显示', 0 => '隐藏']);
+        $grid->sort('排序')->editable()->sortable();
 
         $grid->actions(function ($actions) {
             $actions->disableView(); // 禁用查看
@@ -96,7 +98,8 @@ class BannerController extends Controller
         $form->image('img_url', '图片')->rules('required|image');
         // 创建一个输入框，第一个参数 title 是模型的字段名，第二个参数是该字段描述
         $form->url('jump_url', '外部链接')->placeholder('https://www.baidu.com')->rules('required|url');
-
+        $form->radio('is_show', '显示&隐藏')->options([1 => '显示', 0 => '隐藏'])->default(1);
+        $form->text('sort', '排序')->default(0);
 
         $form->tools(function (Form\Tools $tools) {
             // 去掉`查看`按钮

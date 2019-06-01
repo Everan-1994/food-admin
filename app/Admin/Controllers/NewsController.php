@@ -76,6 +76,8 @@ class NewsController extends Controller
             return News::$newsType[$type];
         });
         $grid->from('新闻来源');
+        $grid->is_show('是否显示')->editable('select', [1 => '显示', 0 => '隐藏']);
+        $grid->sort('排序')->editable()->sortable();
         $grid->created_at('添加时间')->sortable();
 
         $grid->actions(function ($actions) {
@@ -97,6 +99,7 @@ class NewsController extends Controller
 
             $filter->like('title', '新闻标题');
             $filter->equal('type', '新闻分类')->select(News::$newsType);
+            $filter->equal('is_show', '显隐')->radio([1 => '显示', 0 => '隐藏']);
         });
 
         return $grid;
@@ -119,6 +122,9 @@ class NewsController extends Controller
 
         $form->image('image', '图片')->rules('image');
         $form->file('video', '视频')->rules('mimetypes:video/avi,video/mp4');
+
+        $form->radio('is_show', '显示&隐藏')->options([1 => '显示', 0 => '隐藏'])->default(1);
+        $form->text('sort', '排序')->default(0);
 
         $form->tools(function (Form\Tools $tools) {
             // 去掉`查看`按钮

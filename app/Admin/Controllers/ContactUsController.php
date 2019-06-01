@@ -68,6 +68,8 @@ class ContactUsController extends Controller
         $grid->contact('联系人');
         $grid->tel('联系电话');
         $grid->address('详细地址');
+        $grid->is_show('是否显示')->editable('select', [1 => '显示', 0 => '隐藏']);
+        $grid->sort('排序')->editable()->sortable();
 
         $grid->actions(function ($actions) {
             $actions->disableView(); // 禁用查看
@@ -90,6 +92,7 @@ class ContactUsController extends Controller
             $filter->like('contact', '联系人');
             $filter->like('tel', '联系电话');
 
+            $filter->equal('is_show', '显隐')->radio([1 => '显示', 0 => '隐藏']);
         });
 
         return $grid;
@@ -109,6 +112,8 @@ class ContactUsController extends Controller
         $form->text('tel', '联系电话')->rules('required');
         $form->text('contact', '联系人')->rules('required');
         $form->text('address', '公司地址')->rules('required');
+        $form->radio('is_show', '显示&隐藏')->options([1 => '显示', 0 => '隐藏'])->default(1);
+        $form->text('sort', '排序')->default(0);
 
         $form->latlong('latitude', 'longitude', '门店定位')->rules('required');
 
