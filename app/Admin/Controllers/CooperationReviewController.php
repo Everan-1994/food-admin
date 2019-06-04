@@ -103,12 +103,12 @@ class CooperationReviewController extends Controller
         $show->user_email('邮箱');
         $show->user_address('详细地址');
         $show->images_url('图片描述')->unescape()->as(function ($images_url) {
-            $url = env('APP_URL');
+            $url = env('QINIU_DOMAIN');
             $imgs = '';
             foreach ($images_url as $img) {
                 $imgs .=  "<img class='img-rounded' style='max-width: 30%; height: 150px; 
                             border: 1px solid #f0f0f0;
-                            margin: 5px;' src='{$url}/storage/{$img}' />";
+                            margin: 5px;' src='http://{$url}/{$img}' />";
             }
             return $imgs;
         });
