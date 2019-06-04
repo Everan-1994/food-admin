@@ -21,11 +21,24 @@ class CooperationController extends Controller
             'user_message' => 'required',
         ]);
 
-        if (!$validator->fails()) {
+        if ($validator->fails()) {
             return response([
                 'code'    => 0,
                 'message' => '留言信息不全',
+                'error' => $validator->errors()
             ], 401);
+        }
+
+        $images_url = $request->input('images_url', '');
+
+        if (empty($images_url)) {
+            $images_url = json_encode([]);
+        } else {
+            if (is_array($images_url)) {
+                $images_url = json_encode($images_url);
+            } else {
+                $images_url = json_encode(explode(',', $images_url));
+            }
         }
 
         $data = [
@@ -35,7 +48,7 @@ class CooperationController extends Controller
             'user_email'   => $request->input('user_email'),
             'user_address' => $request->input('user_address'),
             'user_message' => $request->input('user_message'),
-            'images_url'   => $request->input('images_url', json_encode([])),
+            'images_url'   => $images_url,
         ];
 
         try {
