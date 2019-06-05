@@ -31,7 +31,7 @@ Route::group([
     // 商超服务理念
     $router->get('super_server', 'EveranController@getSuperServer');
 
-    // 自由品牌
+    // 自有品牌
     $router->get('own_brand', 'EveranController@getOwnBrandList');
     $router->get('own_brand/{id}', 'EveranController@getOwnBrandById')->where(['id' => '[0-9]+']);
     // 品牌介绍 文案 + 图片&视频 轮播

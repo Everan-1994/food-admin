@@ -68,6 +68,9 @@ class EveranController extends Controller
     public function getBrandList(Request $request, BrandCooperation $brandCooperation)
     {
         $brand = $brandCooperation::query()->select(['id', 'name', 'logo', 'logo_hover'])
+            ->when($request->exists('key_word'), function ($query) use ($request) {
+                $query->where('name', 'like', '%' . $request->input('key_word') . '%');
+            })
             ->where('is_show', 1)
             ->orderBy('sort', 'desc')
             ->paginate($request->input('pageSize', 9));
@@ -110,6 +113,9 @@ class EveranController extends Controller
     public function getSuperList(Request $request, SuperStore $superStore)
     {
         $super = $superStore::query()->select(['id', 'name', 'logo', 'intro'])
+            ->when($request->exists('key_word'), function ($query) use ($request) {
+                $query->where('name', 'like', '%' . $request->input('key_word') . '%');
+            })
             ->where('is_show', 1)
             ->orderBy('sort', 'desc')
             ->get();
@@ -150,6 +156,9 @@ class EveranController extends Controller
     {
         $list = $ownBrand::query()
             ->select(['id', 'goods_name', 'goods_img', 'goods_intro'])
+            ->when($request->exists('key_word'), function ($query) use ($request) {
+                $query->where('goods_name', 'like', '%' . $request->input('key_word') . '%');
+            })
             ->where('is_show', 1)
             ->orderBy('sort', 'desc')
             ->paginate($request->input('pageSize', 6), ['*'], 'page', $request->input('page', 1));
@@ -167,7 +176,7 @@ class EveranController extends Controller
     }
 
     /**
-     * 自由品牌介绍 视频&图片 轮播
+     * 自有品牌介绍 视频&图片 轮播
      * @param BrandIntro $brandIntro
      * @param PictureVideo $pictureVideo
      * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
