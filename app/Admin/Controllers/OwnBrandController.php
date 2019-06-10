@@ -86,7 +86,7 @@ class OwnBrandController extends Controller
             // 去掉默认的id过滤器
             $filter->disableIdFilter();
 
-            $filter->like('name', '产品名称');
+            $filter->like('goods_name', '产品名称');
             $filter->equal('is_show', '显隐')->radio([1 => '显示', 0 => '隐藏']);
         });
 
