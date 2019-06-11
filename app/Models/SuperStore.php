@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class SuperStore extends Model
 {
     protected $fillable = [
-        'name', 'content', 'logo', 'images_url', 'intro',
+        'name', 'content', 'logo', 'images_url',
         'company_name', 'contact', 'tel', 'address', 'is_show', 'sort'
     ];
 

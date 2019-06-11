@@ -5,6 +5,7 @@ namespace App\Admin\Controllers;
 use App\Models\SuperStore;
 use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\HasResourceActions;
+use Encore\Admin\Facades\Admin;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
@@ -12,7 +13,7 @@ use Encore\Admin\Show;
 
 class SuperStoreController extends Controller
 {
-    use HasResourceActions;
+    use HasResourceActions, ScriptTrait;
 
     /**
      * Index interface.
@@ -28,6 +29,20 @@ class SuperStoreController extends Controller
     }
 
     /**
+     * Show interface.
+     *
+     * @param mixed $id
+     * @param Content $content
+     * @return Content
+     */
+    public function show($id, Content $content)
+    {
+        return $content
+            ->header('商超详情')
+            ->body($this->detail($id));
+    }
+
+    /**
      * Edit interface.
      *
      * @param mixed $id
@@ -36,6 +51,8 @@ class SuperStoreController extends Controller
      */
     public function edit($id, Content $content)
     {
+        Admin::script($this->removeCancelButton());
+
         return $content
             ->header('商超合作编辑')
             ->body($this->form()->edit($id));
@@ -49,6 +66,8 @@ class SuperStoreController extends Controller
      */
     public function create(Content $content)
     {
+        Admin::script($this->removeCancelButton());
+
         return $content
             ->header('商超合作新增')
             ->body($this->form());
@@ -63,15 +82,14 @@ class SuperStoreController extends Controller
     {
         $grid = new Grid(new SuperStore());
 
-        $grid->id('Id')->sortable();
+        $grid->sort('排序')->editable()->sortable();
         $grid->name('商超名称');
         $grid->is_show('是否显示')->editable('select', [1 => '显示', 0 => '隐藏']);
-        $grid->sort('排序')->editable()->sortable();
         $grid->created_at('添加时间')->sortable();
 
-        $grid->actions(function ($actions) {
-            $actions->disableView(); // 禁用查看
-        });
+//        $grid->actions(function ($actions) {
+//            $actions->disableView(); // 禁用查看
+//        });
 
         $grid->tools(function ($tools) {
             // 禁用批量删除按钮
@@ -132,5 +150,49 @@ class SuperStoreController extends Controller
         });
 
         return $form;
+    }
+
+    /**
+     * Make a show builder.
+     *
+     * @param mixed $id
+     * @return Show
+     */
+    protected function detail($id)
+    {
+        $show = new Show(SuperStore::findOrFail($id));
+
+        $show->name('商超名称');
+        $show->content('商超详情')->unescape()->as(function ($content) {
+            return $content;
+        });
+        $show->logo('商超图标')->unescape()->as(function ($logo) {
+            $url = env('QINIU_DOMAIN');
+            $imgs = "<img class='img-rounded' style='max-width: 30%; height: 150px; 
+                            border: 1px solid #f0f0f0;
+                            margin: 5px;' src='http://{$url}/{$logo}' />";
+            return $imgs;
+        });
+        $show->images_url('商超图片')->unescape()->as(function ($images_url) {
+            if (!empty($images_url)) {
+                $url = env('QINIU_DOMAIN');
+                $imgs = '';
+                foreach ($images_url as $img) {
+                    $imgs .= "<img class='img-rounded' style='max-width: 30%; height: 150px;
+                            border: 1px solid #f0f0f0;
+                            margin: 5px;' src='http://{$url}/{$img}' />";
+                }
+                return $imgs;
+            }
+
+            return '无图片';
+        });
+        $show->created_at('添加时间');
+
+        $show->panel()->tools(function ($tools) {
+            $tools->disableEdit();
+        });
+
+        return $show;
     }
 }

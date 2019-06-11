@@ -5,13 +5,14 @@ namespace App\Admin\Controllers;
 use App\Models\Banner;
 use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\HasResourceActions;
+use Encore\Admin\Facades\Admin;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
 
 class BannerController extends Controller
 {
-    use HasResourceActions;
+    use HasResourceActions, ScriptTrait;
 
     /**
      * Index interface.
@@ -35,6 +36,8 @@ class BannerController extends Controller
      */
     public function edit($id, Content $content)
     {
+        Admin::script($this->removeCancelButton());
+
         return $content
             ->header('轮播图编辑')
             ->body($this->form()->edit($id));
@@ -48,6 +51,8 @@ class BannerController extends Controller
      */
     public function create(Content $content)
     {
+        Admin::script($this->removeCancelButton());
+
         return $content
             ->header('新建轮播图')
             ->body($this->form());
@@ -62,11 +67,11 @@ class BannerController extends Controller
     {
         $grid = new Grid(new Banner);
 
-        $grid->id('#')->sortable();
+        // $grid->id('#')->sortable();
+        $grid->sort('排序')->editable()->sortable();
         $grid->img_url('图片')->image();
         $grid->jump_url('外部链接');
         $grid->is_show('是否显示')->editable('select', [1 => '显示', 0 => '隐藏']);
-        $grid->sort('排序')->editable()->sortable();
 
         $grid->actions(function ($actions) {
             $actions->disableView(); // 禁用查看

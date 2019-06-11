@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class BrandCooperation extends Model
 {
     protected $fillable = [
-        'name', 'content', 'logo', 'logo_hover',
+        'name', 'content', 'logo', 'logo_hover', 'video',
          'company_name', 'contact', 'tel', 'address', 'is_show', 'sort'
     ];
 

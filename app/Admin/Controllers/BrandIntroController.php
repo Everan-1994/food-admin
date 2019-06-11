@@ -50,7 +50,7 @@ class BrandIntroController extends Controller
         $grid = new Grid(new BrandIntro());
 
         $grid->id('#');
-        $grid->title('标题');
+        $grid->title('页面');
         $grid->created_at('添加时间');
 
         $grid->actions(function ($actions) {
@@ -82,7 +82,7 @@ class BrandIntroController extends Controller
     {
         $form = new Form(new BrandIntro());
 
-        $form->text('title', '标题')->rules('required');
+        $form->text('title', '页面')->rules('required');
         $form->textarea('intro', '品牌介绍')->rules('required');
         $form->textarea('feature', '品牌特征')->rules('required');
         $form->textarea('idea', '品牌理念')->rules('required');
@@ -95,6 +95,8 @@ class BrandIntroController extends Controller
         });
 
         $form->footer(function ($footer) {
+            // 去掉 重置 按钮
+            $footer->disableReset();
             // 去掉`查看`checkbox
             $footer->disableViewCheck();
             // 去掉`继续编辑`checkbox

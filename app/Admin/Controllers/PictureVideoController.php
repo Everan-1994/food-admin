@@ -23,6 +23,10 @@ class PictureVideoController extends Controller
     public function edit($id, Content $content)
     {
         Admin::script($this->script());
+        Admin::script($this->removeCancelButton());
+        Admin::script($this->addTextTips('brand_image', '最多可上传5张图片'));
+        Admin::script($this->addTextTips('brand_video', '最多可上传1个视频'));
+
         return $content
             ->header('品牌图片&视频')
             ->body($this->form()->edit($id));
@@ -55,6 +59,8 @@ class PictureVideoController extends Controller
         });
 
         $form->footer(function ($footer) {
+            // 去掉 重置 按钮
+            $footer->disableReset();
             // 去掉`查看`checkbox
             $footer->disableViewCheck();
             // 去掉`继续编辑`checkbox

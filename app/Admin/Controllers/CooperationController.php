@@ -5,6 +5,7 @@ namespace App\Admin\Controllers;
 use App\Models\Cooperation;
 use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\HasResourceActions;
+use Encore\Admin\Facades\Admin;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
@@ -12,7 +13,7 @@ use Encore\Admin\Show;
 
 class CooperationController extends Controller
 {
-    use HasResourceActions;
+    use HasResourceActions, ScriptTrait;
 
     /**
      * Edit interface.
@@ -23,6 +24,8 @@ class CooperationController extends Controller
      */
     public function edit($id, Content $content)
     {
+        Admin::script($this->removeCancelButton());
+
         return $content
             ->header('合作流程')
             ->description('description')

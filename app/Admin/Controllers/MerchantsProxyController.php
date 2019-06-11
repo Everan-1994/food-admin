@@ -5,6 +5,7 @@ namespace App\Admin\Controllers;
 use App\Models\MerchantsProxy;
 use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\HasResourceActions;
+use Encore\Admin\Facades\Admin;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
@@ -12,7 +13,7 @@ use Encore\Admin\Show;
 
 class MerchantsProxyController extends Controller
 {
-    use HasResourceActions;
+    use HasResourceActions, ScriptTrait;
 
     /**
      * Edit interface.
@@ -23,6 +24,8 @@ class MerchantsProxyController extends Controller
      */
     public function edit($id, Content $content)
     {
+        Admin::script($this->removeCancelButton());
+
         return $content
             ->header('招商代理')
             ->body($this->form()->edit($id));
@@ -50,7 +53,7 @@ class MerchantsProxyController extends Controller
         $form->text('contact', '联系人')->rules('required');
         $form->text('tel', '联系电话')->rules('required');
         $form->text('address', '公司地址')->rules('required');
-        $form->image('business_license', '品牌图片')->rules('required|image');
+        $form->image('business_license', '公司营业执照 *')->rules('required|image');
         $form->text('range', '经营范围')->rules('required');
 
         $form->tools(function (Form\Tools $tools) {

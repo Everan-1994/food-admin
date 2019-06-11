@@ -5,6 +5,7 @@ namespace App\Admin\Controllers;
 use App\Models\OwnBrand;
 use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\HasResourceActions;
+use Encore\Admin\Facades\Admin;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
@@ -12,7 +13,7 @@ use Encore\Admin\Show;
 
 class OwnBrandController extends Controller
 {
-    use HasResourceActions;
+    use HasResourceActions, ScriptTrait;
 
     /**
      * Index interface.
@@ -28,6 +29,20 @@ class OwnBrandController extends Controller
     }
 
     /**
+     * Show interface.
+     *
+     * @param mixed $id
+     * @param Content $content
+     * @return Content
+     */
+    public function show($id, Content $content)
+    {
+        return $content
+            ->header('产品详情')
+            ->body($this->detail($id));
+    }
+
+    /**
      * Edit interface.
      *
      * @param mixed $id
@@ -36,6 +51,10 @@ class OwnBrandController extends Controller
      */
     public function edit($id, Content $content)
     {
+        Admin::script($this->removeCancelButton());
+        Admin::script($this->addTips('goods_img', '189', '235'));
+        Admin::script($this->addTextTips('images_url', '最多上传5张图片'));
+
         return $content
             ->header('产品编辑')
             ->body($this->form()->edit($id));
@@ -49,9 +68,58 @@ class OwnBrandController extends Controller
      */
     public function create(Content $content)
     {
+        Admin::script($this->removeCancelButton());
+        Admin::script($this->addTips('goods_img', '189', '235'));
+        Admin::script($this->addTextTips('images_url', '最多上传5张图片'));
+
         return $content
             ->header('产品新增')
             ->body($this->form());
+    }
+
+    /**
+     * Make a show builder.
+     *
+     * @param mixed $id
+     * @return Show
+     */
+    protected function detail($id)
+    {
+        $show = new Show(OwnBrand::findOrFail($id));
+
+        $show->goods_name('产品名称');
+        $show->goods_type('产品种类');
+        $show->goods_img('产品图片')->unescape()->as(function ($goods_img) {
+            $url = env('QINIU_DOMAIN');
+            $imgs = "<img class='img-rounded' style='max-width: 30%; height: 150px; 
+                            border: 1px solid #f0f0f0;
+                            margin: 5px;' src='http://{$url}/{$goods_img}' />";
+            return $imgs;
+        });
+        $show->goods_intro('产品介绍');
+//        $show->images_url('轮播图')->unescape()->as(function ($images_url) {
+//            if (!empty($images_url)) {
+//                $url = env('QINIU_DOMAIN');
+//                $imgs = '';
+//                foreach ($images_url as $img) {
+//                    $imgs .=  "<img class='img-rounded' style='max-width: 30%; height: 150px;
+//                            border: 1px solid #f0f0f0;
+//                            margin: 5px;' src='http://{$url}/{$img}' />";
+//                }
+//                return $imgs;
+//            }
+//            return '未上传轮播图';
+//        });
+//        $show->goods_content('产品详情')->unescape()->as(function ($goods_content) {
+//            return $goods_content;
+//        });
+        $show->created_at('添加时间');
+
+        $show->panel()->tools(function ($tools) {
+            $tools->disableEdit();
+        });
+
+        return $show;
     }
 
     /**
@@ -63,15 +131,14 @@ class OwnBrandController extends Controller
     {
         $grid = new Grid(new OwnBrand());
 
-        $grid->id('ID')->sortable()->style('vertical-align: middle;');
-        $grid->goods_name('产品名称')->style('vertical-align: middle;');
-        $grid->goods_img('产品图片')->style('vertical-align: middle;')->image();
-        $grid->is_show('是否显示')->editable('select', [1 => '显示', 0 => '隐藏']);
         $grid->sort('排序')->editable()->sortable();
+        $grid->goods_name('产品名称');
+        $grid->goods_img('产品图片')->image();
+        $grid->is_show('是否显示')->editable('select', [1 => '显示', 0 => '隐藏']);
 
-        $grid->actions(function ($actions) {
-            $actions->disableView(); // 禁用查看
-        });
+//        $grid->actions(function ($actions) {
+//            $actions->disableView(); // 禁用查看
+//        });
 
         $grid->tools(function ($tools) {
             // 禁用批量删除按钮

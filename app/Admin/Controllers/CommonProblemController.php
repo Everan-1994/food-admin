@@ -63,11 +63,10 @@ class CommonProblemController extends Controller
     {
         $grid = new Grid(new CommonProblem);
 
-        $grid->id('#');
+        $grid->sort('排序')->editable()->sortable();
         $grid->question('问题');
         $grid->answer('答案');
         $grid->is_show('是否显示')->editable('select', [1 => '显示', 0 => '隐藏']);
-        $grid->sort('排序')->editable()->sortable();
         $grid->created_at('添加时间')->sortable();
 
         $grid->actions(function ($actions) {

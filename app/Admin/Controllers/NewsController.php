@@ -9,7 +9,6 @@ use Encore\Admin\Facades\Admin;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
-use Encore\Admin\Show;
 
 class NewsController extends Controller
 {
@@ -40,6 +39,8 @@ class NewsController extends Controller
         $this->imageOrVideoShow();
 
         Admin::script($this->script());
+        Admin::script($this->removeCancelButton());
+        Admin::script($this->addTips('image', '503', '387'));
 
         return $content
             ->header('编辑新闻')
@@ -55,6 +56,8 @@ class NewsController extends Controller
     public function create(Content $content)
     {
         $this->imageOrVideoShow();
+        Admin::script($this->removeCancelButton());
+        Admin::script($this->addTips('image', '503', '387'));
 
         return $content
             ->header('添加新闻')
@@ -70,14 +73,13 @@ class NewsController extends Controller
     {
         $grid = new Grid(new News);
 
-        $grid->id('ID')->sortable();
+        $grid->sort('排序')->editable()->sortable();
         $grid->title('新闻标题');
         $grid->type('新闻分类')->display(function ($type) {
             return News::$newsType[$type];
         });
         $grid->from('新闻来源');
         $grid->is_show('是否显示')->editable('select', [1 => '显示', 0 => '隐藏']);
-        $grid->sort('排序')->editable()->sortable();
         $grid->created_at('添加时间')->sortable();
 
         $grid->actions(function ($actions) {
@@ -124,7 +126,7 @@ class NewsController extends Controller
         $form->file('video', '视频')->rules('mimetypes:video/avi,video/mp4');
 
         $form->radio('is_show', '显示&隐藏')->options([1 => '显示', 0 => '隐藏'])->default(1);
-        $form->text('sort', '排序')->default(0);
+        // $form->text('sort', '排序')->default(0);
 
         $form->tools(function (Form\Tools $tools) {
             // 去掉`查看`按钮

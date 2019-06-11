@@ -5,6 +5,7 @@ namespace App\Admin\Controllers;
 use App\Models\BrandCooperation;
 use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\HasResourceActions;
+use Encore\Admin\Facades\Admin;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
@@ -12,7 +13,7 @@ use Encore\Admin\Show;
 
 class BrandCooperationController extends Controller
 {
-    use HasResourceActions;
+    use HasResourceActions, ScriptTrait;
 
     /**
      * Index interface.
@@ -28,6 +29,20 @@ class BrandCooperationController extends Controller
     }
 
     /**
+     * Show interface.
+     *
+     * @param mixed $id
+     * @param Content $content
+     * @return Content
+     */
+    public function show($id, Content $content)
+    {
+        return $content
+            ->header('品牌详情')
+            ->body($this->detail($id));
+    }
+
+    /**
      * Edit interface.
      *
      * @param mixed $id
@@ -36,6 +51,10 @@ class BrandCooperationController extends Controller
      */
     public function edit($id, Content $content)
     {
+        Admin::script($this->removeCancelButton());
+        Admin::script($this->addTips('logo', '196', '124'));
+        Admin::script($this->addTips('logo_hover', '196', '124'));
+
         return $content
             ->header('品牌合作编辑')
             ->body($this->form()->edit($id));
@@ -49,6 +68,10 @@ class BrandCooperationController extends Controller
      */
     public function create(Content $content)
     {
+        Admin::script($this->removeCancelButton());
+        Admin::script($this->addTips('logo', '196', '124'));
+        Admin::script($this->addTips('logo_hover', '196', '124'));
+
         return $content
             ->header('品牌合作新增')
             ->body($this->form());
@@ -63,15 +86,14 @@ class BrandCooperationController extends Controller
     {
         $grid = new Grid(new BrandCooperation);
 
-        $grid->id('Id')->sortable();
+        $grid->sort('排序')->editable()->sortable();
         $grid->name('品牌名称');
         $grid->is_show('是否显示')->editable('select', [1 => '显示', 0 => '隐藏']);
-        $grid->sort('排序')->editable()->sortable();
         $grid->created_at('添加时间')->sortable();
 
-        $grid->actions(function ($actions) {
-            $actions->disableView(); // 禁用查看
-        });
+//        $grid->actions(function ($actions) {
+//            $actions->disableView(); // 禁用查看
+//        });
 
         $grid->tools(function ($tools) {
             // 禁用批量删除按钮
@@ -114,6 +136,7 @@ class BrandCooperationController extends Controller
 //                return 'image';
 //            }
 //        });
+        $form->file('video', '视频')->rules('mimetypes:video/avi,video/mp4');
         $form->radio('is_show', '显示&隐藏')->options([1 => '显示', 0 => '隐藏'])->default(1);
         $form->text('sort', '排序')->default(0);
         
@@ -133,5 +156,66 @@ class BrandCooperationController extends Controller
         });
 
         return $form;
+    }
+
+    /**
+     * Make a show builder.
+     *
+     * @param mixed $id
+     * @return Show
+     */
+    protected function detail($id)
+    {
+        $show = new Show(BrandCooperation::findOrFail($id));
+
+        $show->name('品牌名称');
+        $show->content('品牌详情')->unescape()->as(function ($content) {
+            return $content;
+        });
+        $show->logo('品牌图标')->unescape()->as(function ($logo) {
+            $url = env('QINIU_DOMAIN');
+            $imgs = "<img class='img-rounded' style='max-width: 30%; height: 150px; 
+                            border: 1px solid #f0f0f0;
+                            margin: 5px;' src='http://{$url}/{$logo}' />";
+            return $imgs;
+        });
+        $show->logo_hover('品牌图标(hover)')->unescape()->as(function ($logo_hover) {
+            $url = env('QINIU_DOMAIN');
+            $imgs = "<img class='img-rounded' style='max-width: 30%; height: 150px; 
+                            border: 1px solid #f0f0f0;
+                            margin: 5px;' src='http://{$url}/{$logo_hover}' />";
+            return $imgs;
+        });
+        $show->created_at('添加时间');
+
+        $show->panel()->tools(function ($tools) {
+            $tools->disableEdit();
+        });
+
+        return $show;
+    }
+
+    protected function imageOrVideoShow() {
+        return Admin::script('
+            $(document).ready(() => {
+                if ($("select[name=resource_type]").val() == 1) {
+                    $(".form-group").eq(5).hide();
+                } else {
+                    $(".form-group").eq(4).hide();
+                }
+            
+                $("select[name=resource_type]").change(function() {
+                  if (this.value == 1) {
+                     $(".form-group").eq(4).show();
+                     $(".form-group").eq(5).hide();
+                  }
+                  
+                  if (this.value == 2) {
+                     $(".form-group").eq(4).hide();
+                     $(".form-group").eq(5).show();
+                  }
+                });
+            });
+        ');
     }
 }

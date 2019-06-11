@@ -5,12 +5,13 @@ namespace App\Admin\Controllers;
 use App\Models\Culture;
 use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\HasResourceActions;
+use Encore\Admin\Facades\Admin;
 use Encore\Admin\Form;
 use Encore\Admin\Layout\Content;
 
 class CultureController extends Controller
 {
-    use HasResourceActions;
+    use HasResourceActions, ScriptTrait;
 
     /**
      * Edit interface.
@@ -21,6 +22,8 @@ class CultureController extends Controller
      */
     public function edit($id, Content $content)
     {
+        Admin::script($this->removeCancelButton());
+
         return $content
             ->header('底部内容')
             ->body($this->form()->edit($id));

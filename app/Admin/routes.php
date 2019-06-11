@@ -34,6 +34,7 @@ Route::group([
     $router->post('brand', 'BrandCooperationController@store');
     $router->get('brand/{id}/edit', 'BrandCooperationController@edit');
     $router->put('brand/{id}', 'BrandCooperationController@update');
+    $router->get('brand/{id}', 'BrandCooperationController@show');
     $router->delete('brand/{id}', 'BrandCooperationController@destroy');
 
     // 服务理念
@@ -50,6 +51,7 @@ Route::group([
     $router->post('super', 'SuperStoreController@store');
     $router->get('super/{id}/edit', 'SuperStoreController@edit');
     $router->put('super/{id}', 'SuperStoreController@update');
+    $router->get('super/{id}', 'SuperStoreController@show');
     $router->delete('super/{id}', 'SuperStoreController@destroy');
 
     // 商超服务
@@ -62,6 +64,7 @@ Route::group([
     $router->post('own_brand', 'OwnBrandController@store');
     $router->get('own_brand/{id}/edit', 'OwnBrandController@edit');
     $router->put('own_brand/{id}', 'OwnBrandController@update');
+    $router->get('own_brand/{id}', 'OwnBrandController@show');
     $router->delete('own_brand/{id}', 'OwnBrandController@destroy');
 
     // 品牌介绍 文本轮播

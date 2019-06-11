@@ -5,6 +5,7 @@ namespace App\Admin\Controllers;
 use App\Models\SuperServer;
 use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\HasResourceActions;
+use Encore\Admin\Facades\Admin;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
@@ -12,7 +13,7 @@ use Encore\Admin\Show;
 
 class SuperServerController extends Controller
 {
-    use HasResourceActions;
+    use HasResourceActions, ScriptTrait;
 
     /**
      * Edit interface.
@@ -23,6 +24,9 @@ class SuperServerController extends Controller
      */
     public function edit($id, Content $content)
     {
+        Admin::script($this->removeCancelButton());
+        Admin::script($this->addTextTips('images_url', '最多上传5张图片'));
+
         return $content
             ->header('商超服务')
             ->body($this->form()->edit($id));
@@ -62,6 +66,8 @@ class SuperServerController extends Controller
         });
 
         $form->footer(function ($footer) {
+            // 去掉 重置 按钮
+            $footer->disableReset();
             // 去掉`查看`checkbox
             $footer->disableViewCheck();
             // 去掉`继续编辑`checkbox
