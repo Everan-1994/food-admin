@@ -121,6 +121,7 @@ class SuperStoreController extends Controller
         $form = new Form(new SuperStore());
 
         $form->text('name', '商超名称')->rules('required');
+        $form->textarea('intro', '商超简介')->rules('required');
         $form->UEditor('content', '商超详情')->rules('required');
         $form->image('logo', '商超图标')->rules('required|image');
         $form->multipleImage('images_url', '商超图片')->removable()->rules(function ($form) {
