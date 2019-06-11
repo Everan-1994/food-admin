@@ -33,9 +33,14 @@ class PictureVideoController extends Controller
     }
     public function update($id)
     {
-        $this->form()->update($id);
-        admin_toastr('内容更新成功', 'success');
-        return redirect('/admin/brand_intro_pv/1/edit');
+        $result = $this->form()->update($id);
+
+        if (optional(json_decode($result->getContent()))->status) {
+            return $result;
+        } else {
+            admin_toastr('内容更新成功', 'success');
+            return redirect('/admin/brand_intro_pv/1/edit');
+        }
     }
     /**
      * Make a form builder.

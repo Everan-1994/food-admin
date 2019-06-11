@@ -10,27 +10,27 @@ class PictureVideo extends Model
         'brand_image', 'brand_video'
     ];
 
-    public function setBrandImageAttribute($images)
+    public function setBrandImageAttribute($brand_image)
     {
-        if (is_array($images)) {
-            $this->attributes['brand_image'] = json_encode($images);
+        if (is_array($brand_image)) {
+            $this->attributes['brand_image'] = json_encode($brand_image);
         }
     }
 
-    public function getBrandImageAttribute($images)
+    public function getBrandImageAttribute($brand_image)
     {
-        return json_decode($images, true);
+        return json_decode($brand_image, true);
     }
 
-    public function setBrandVideoAttribute($video)
+    public function setBrandVideoAttribute($brand_video)
     {
-        if (is_array($video)) {
-            $this->attributes['brand_video'] = json_encode($video);
+        if (is_array($brand_video)) {
+            $this->attributes['brand_video'] = json_encode($brand_video);
         }
     }
 
-    public function getBrandVideoAttribute($video)
+    public function getBrandVideoAttribute($brand_video)
     {
-        return json_decode($video, true);
+        return json_decode($brand_video, true);
     }
 }
