@@ -236,7 +236,9 @@ class EveranController extends Controller
     {
         $list = $news::query()
             ->select(['id', 'type', 'title', 'image', 'video', 'detail_image', 'intro', 'resource_type', 'from', 'created_at'])
-            ->where('type', $request->input('type', 0))
+            ->when('', function ($query) use ($request) {
+                $query->where('type', $request->input('type', 0));
+            })
             ->when($request->exists('keyword'), function ($query) use ($request) {
                 $query->where('title', 'like', '%'. $request->input('keyword') .'%');
             })
