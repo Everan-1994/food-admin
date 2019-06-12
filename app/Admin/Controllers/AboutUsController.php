@@ -38,6 +38,7 @@ class AboutUsController extends Controller
     public function edit($id, Content $content)
     {
         $this->imageOrVideoShow();
+        Admin::script($this->script());
         Admin::script($this->removeCancelButton());
 
         return $content
