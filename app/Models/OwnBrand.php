@@ -7,7 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 class OwnBrand extends Model
 {
     protected $fillable = [
-        'goods_name', 'goods_type', 'goods_img', 'images_url', 'goods_intro', 'goods_content', 'is_show', 'sort'
+        'goods_name', 'goods_type', 'goods_img', 'images_url',
+        'goods_intro', 'goods_content', 'is_show', 'sort', 'detail_img'
     ];
 
     public function setImagesUrlAttribute($images)

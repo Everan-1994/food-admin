@@ -88,6 +88,10 @@ class AboutUsController extends Controller
 
         $form->text('title', '标题')->rules('required');
         $form->UEditor('content', '介绍')->rules('required');
+
+        $form->select('resource_type', '封面(二选一)')->options([1 => '图片', 2 => '视频'])->default(1);
+
+        $form->image('image', '图片')->rules('image');
         $form->file('video', '视频')->rules('mimetypes:video/avi,video/mp4');
 
         $form->tools(function (Form\Tools $tools) {
@@ -115,20 +119,20 @@ class AboutUsController extends Controller
         return Admin::script('
             $(document).ready(() => {
                 if ($("select[name=resource_type]").val() == 1) {
-                    $(".form-group").eq(5).hide();
-                } else {
                     $(".form-group").eq(4).hide();
+                } else {
+                    $(".form-group").eq(3).hide();
                 }
             
                 $("select[name=resource_type]").change(function() {
                   if (this.value == 1) {
-                     $(".form-group").eq(4).show();
-                     $(".form-group").eq(5).hide();
+                     $(".form-group").eq(3).show();
+                     $(".form-group").eq(4).hide();
                   }
                   
                   if (this.value == 2) {
-                     $(".form-group").eq(4).hide();
-                     $(".form-group").eq(5).show();
+                     $(".form-group").eq(3).hide();
+                     $(".form-group").eq(4).show();
                   }
                 });
             });

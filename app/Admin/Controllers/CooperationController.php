@@ -25,6 +25,7 @@ class CooperationController extends Controller
     public function edit($id, Content $content)
     {
         Admin::script($this->removeCancelButton());
+        Admin::script($this->addTips('image_url', '863', '422'));
 
         return $content
             ->header('合作流程')

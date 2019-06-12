@@ -13,6 +13,7 @@ class News extends Model
     ];
 
     protected $fillable = [
-        'type', 'resource_type', 'title', 'image', 'video', 'intro', 'from', 'content', 'is_show', 'sort'
+        'type', 'resource_type', 'title', 'image', 'video',
+        'intro', 'from', 'content', 'is_show', 'sort', 'detail_image'
     ];
 }

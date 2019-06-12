@@ -169,7 +169,7 @@ class EveranController extends Controller
     public function getOwnBrandById($id, OwnBrand $ownBrand)
     {
         $brand = $ownBrand::query()
-            ->select(['id', 'goods_name', 'goods_img', 'images_url', 'goods_intro', 'goods_content'])
+            ->select(['id', 'goods_name', 'goods_img', 'images_url', 'detail_img', 'goods_intro', 'goods_content'])
             ->find($id);
 
         return response($brand);
@@ -235,13 +235,13 @@ class EveranController extends Controller
     public function getNewsList(Request $request, News $news)
     {
         $list = $news::query()
-            ->select(['id', 'type', 'title', 'image', 'video', 'intro', 'resource_type', 'from', 'created_at'])
+            ->select(['id', 'type', 'title', 'image', 'video', 'detail_image', 'intro', 'resource_type', 'from', 'created_at'])
             ->where('type', $request->input('type', 0))
             ->when($request->exists('keyword'), function ($query) use ($request) {
                 $query->where('title', 'like', '%'. $request->input('keyword') .'%');
             })
             ->where('is_show', 1)
-            ->orderBy('sort', 'desc')
+            ->orderBy('sort', 'asc')
             ->paginate($request->input('pageSize', 10), ['*'], 'page', $request->input('page', 1));
 
         return response(NewsResource::collection($list));
@@ -250,7 +250,7 @@ class EveranController extends Controller
     public function getNewsById($id, News $news)
     {
         $news_detail = $news::query()
-            ->select(['id', 'type', 'title', 'image', 'video', 'intro', 'resource_type', 'from', 'content', 'created_at'])
+            ->select(['id', 'type', 'title', 'image', 'video', 'detail_image', 'intro', 'resource_type', 'from', 'content', 'created_at'])
             ->where('is_show', 1)
             ->find($id);
 
@@ -281,14 +281,14 @@ class EveranController extends Controller
     {
         // 关于我们
         $about_us = $aboutUs::query()
-            ->select(['title', 'content', 'video'])
+            ->select(['title', 'content', 'image', 'video', 'resource_type'])
             ->get();
 
         // 常见问题
         $common_problem = $commonProblem::query()
             ->select(['question', 'answer'])
             ->where('is_show', 1)
-            ->orderBy('sort', 'desc')
+            ->orderBy('sort', 'asc')
             ->paginate($request->input('pageSize', 10), ['*'], 'page', $request->input('page', 1));
 
         return response([

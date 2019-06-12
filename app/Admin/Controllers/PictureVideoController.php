@@ -25,6 +25,7 @@ class PictureVideoController extends Controller
         Admin::script($this->script());
         Admin::script($this->removeCancelButton());
         Admin::script($this->addTextTips('brand_image', '最多可上传5张图片'));
+        Admin::script($this->addTips('brand_image', '768', '450'));
         Admin::script($this->addTextTips('brand_video', '最多可上传1个视频'));
 
         return $content

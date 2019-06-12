@@ -120,13 +120,15 @@ class NewsController extends Controller
         $form->text('from', '新闻来源')->rules('required');
         $form->UEditor('content', '新闻详情')->rules('required');
 
-        $form->select('resource_type', '封面')->options([1 => '图片', 2 => '视频'])->default(1);
+        $form->select('resource_type', '封面(二选一)')->options([1 => '图片', 2 => '视频'])->default(1);
 
         $form->image('image', '图片')->rules('image');
         $form->file('video', '视频')->rules('mimetypes:video/avi,video/mp4');
 
+        $form->image('detail_image', '详情图')->rules('image');
+
         $form->radio('is_show', '显示&隐藏')->options([1 => '显示', 0 => '隐藏'])->default(1);
-        // $form->text('sort', '排序')->default(0);
+        $form->hidden('sort', '排序')->default(0);
 
         $form->tools(function (Form\Tools $tools) {
             // 去掉`查看`按钮
@@ -145,20 +147,20 @@ class NewsController extends Controller
         return Admin::script('
             $(document).ready(() => {
                 if ($("select[name=resource_type]").val() == 1) {
-                    $(".form-group").eq(5).hide();
+                    $(".form-group").eq(7).hide();
                 } else {
-                    $(".form-group").eq(4).hide();
+                    $(".form-group").eq(6).hide();
                 }
             
                 $("select[name=resource_type]").change(function() {
                   if (this.value == 1) {
-                     $(".form-group").eq(4).show();
-                     $(".form-group").eq(5).hide();
+                     $(".form-group").eq(6).show();
+                     $(".form-group").eq(7).hide();
                   }
                   
                   if (this.value == 2) {
-                     $(".form-group").eq(4).hide();
-                     $(".form-group").eq(5).show();
+                     $(".form-group").eq(6).hide();
+                     $(".form-group").eq(7).show();
                   }
                 });
             });

@@ -50,7 +50,8 @@ class BrandIntroController extends Controller
         $grid = new Grid(new BrandIntro());
 
         $grid->id('#');
-        $grid->title('页面');
+        $grid->title('页面')->editable();
+        $grid->is_show('是否显示')->editable('select', [1 => '显示', 0 => '隐藏']);
         $grid->created_at('添加时间');
 
         $grid->actions(function ($actions) {
@@ -82,7 +83,7 @@ class BrandIntroController extends Controller
     {
         $form = new Form(new BrandIntro());
 
-        $form->text('title', '页面')->rules('required');
+        $form->hidden('title', '页面')->rules('required');
         $form->textarea('intro', '品牌介绍')->rules('required');
         $form->textarea('feature', '品牌特征')->rules('required');
         $form->textarea('idea', '品牌理念')->rules('required');

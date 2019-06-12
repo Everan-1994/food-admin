@@ -52,6 +52,7 @@ class SuperStoreController extends Controller
     public function edit($id, Content $content)
     {
         Admin::script($this->removeCancelButton());
+        Admin::script($this->addTips('images_url', 1100, 500));
 
         return $content
             ->header('商超合作编辑')
@@ -67,6 +68,7 @@ class SuperStoreController extends Controller
     public function create(Content $content)
     {
         Admin::script($this->removeCancelButton());
+        Admin::script($this->addTips('images_url', 1100, 500));
 
         return $content
             ->header('商超合作新增')

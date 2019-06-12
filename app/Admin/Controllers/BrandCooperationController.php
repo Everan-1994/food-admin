@@ -51,9 +51,11 @@ class BrandCooperationController extends Controller
      */
     public function edit($id, Content $content)
     {
+        Admin::script($this->script());
         Admin::script($this->removeCancelButton());
         Admin::script($this->addTips('logo', '196', '124'));
         Admin::script($this->addTips('logo_hover', '196', '124'));
+        Admin::script($this->addTips('image_url', '1100', '500'));
 
         return $content
             ->header('品牌合作编辑')
@@ -71,6 +73,7 @@ class BrandCooperationController extends Controller
         Admin::script($this->removeCancelButton());
         Admin::script($this->addTips('logo', '196', '124'));
         Admin::script($this->addTips('logo_hover', '196', '124'));
+        Admin::script($this->addTips('image_url', '1100', '500'));
 
         return $content
             ->header('品牌合作新增')
@@ -137,6 +140,7 @@ class BrandCooperationController extends Controller
 //            }
 //        });
         $form->file('video', '视频')->rules('mimetypes:video/avi,video/mp4');
+        $form->image('image_url', '品牌图片')->rules('image');
         $form->radio('is_show', '显示&隐藏')->options([1 => '显示', 0 => '隐藏'])->default(1);
         $form->text('sort', '排序')->default(0);
         
@@ -193,29 +197,5 @@ class BrandCooperationController extends Controller
         });
 
         return $show;
-    }
-
-    protected function imageOrVideoShow() {
-        return Admin::script('
-            $(document).ready(() => {
-                if ($("select[name=resource_type]").val() == 1) {
-                    $(".form-group").eq(5).hide();
-                } else {
-                    $(".form-group").eq(4).hide();
-                }
-            
-                $("select[name=resource_type]").change(function() {
-                  if (this.value == 1) {
-                     $(".form-group").eq(4).show();
-                     $(".form-group").eq(5).hide();
-                  }
-                  
-                  if (this.value == 2) {
-                     $(".form-group").eq(4).hide();
-                     $(".form-group").eq(5).show();
-                  }
-                });
-            });
-        ');
     }
 }

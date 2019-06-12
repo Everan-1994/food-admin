@@ -82,7 +82,7 @@ class ContactUsController extends Controller
         });
 
         // 查询
-        $grid->filter(function($filter){
+        $grid->filter(function ($filter) {
 
             // 去掉默认的id过滤器
             $filter->disableIdFilter();
@@ -112,7 +112,7 @@ class ContactUsController extends Controller
         $form->text('contact', '联系人')->rules('required');
         $form->text('address', '公司地址')->rules('required');
         $form->radio('is_show', '显示&隐藏')->options([1 => '显示', 0 => '隐藏'])->default(1);
-        // $form->text('sort', '排序')->default(0);
+        $form->hidden('sort', '排序')->default(0);
 
         $form->latlong('latitude', 'longitude', '门店定位')->rules('required');
 
