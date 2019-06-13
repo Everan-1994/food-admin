@@ -72,7 +72,7 @@ class EveranController extends Controller
                 $query->where('name', 'like', '%' . $request->input('key_word') . '%');
             })
             ->where('is_show', 1)
-            ->orderBy('sort', 'desc')
+            ->orderBy('sort', 'asc')
             ->paginate($request->input('pageSize', 9));
 
         return response($brand);
