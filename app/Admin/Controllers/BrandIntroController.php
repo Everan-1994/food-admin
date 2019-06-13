@@ -87,6 +87,7 @@ class BrandIntroController extends Controller
         $form->textarea('intro', '品牌介绍')->rules('required');
         $form->textarea('feature', '品牌特征')->rules('required');
         $form->textarea('idea', '品牌理念')->rules('required');
+        $form->hidden('is_show', '显示&隐藏')->options([1 => '显示', 0 => '隐藏'])->default(1);
 
         $form->tools(function (Form\Tools $tools) {
             // 去掉`删除`按钮
