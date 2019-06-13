@@ -40,6 +40,7 @@ class AboutUsController extends Controller
         $this->imageOrVideoShow();
         Admin::script($this->script());
         Admin::script($this->removeCancelButton());
+        Admin::script($this->addTextTips('image', '最多上传3张图片'));
 
         return $content
             ->header('信息编辑')
@@ -92,7 +93,14 @@ class AboutUsController extends Controller
 
         $form->select('resource_type', '封面(二选一)')->options([1 => '图片', 2 => '视频'])->default(1);
 
-        $form->image('image', '图片')->rules('image');
+        $form->multipleImage('image', '图片')->removable()->rules(function ($form) {
+            // 如果不是编辑状态，则添加字段必填验证
+            if (!$id = $form->model()->id) {
+                return 'required|image';
+            } else {
+                return 'image';
+            }
+        });
         $form->file('video', '视频')->rules('mimetypes:video/avi,video/mp4');
 
         $form->tools(function (Form\Tools $tools) {
