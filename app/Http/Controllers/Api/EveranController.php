@@ -184,6 +184,7 @@ class EveranController extends Controller
     public function getOwnBrandIntro(BrandIntro $brandIntro, PictureVideo $pictureVideo)
     {
         $brand_intro = $brandIntro::query()
+            ->where('is_show', 1)
             ->select(['title', 'intro', 'feature', 'idea'])
             ->get();
 
