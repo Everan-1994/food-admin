@@ -66,8 +66,7 @@ class CooperationController extends Controller
             // Storage::delete($images_url); // 移除文件
             return response([
                 'code'    => 0,
-                'message' => '提交失败',
-                'error' => $exception->getMessage()
+                'message' => '提交失败'
             ], 400);
         }
     }
