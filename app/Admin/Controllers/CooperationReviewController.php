@@ -105,10 +105,12 @@ class CooperationReviewController extends Controller
         $show->images_url('图片描述')->unescape()->as(function ($images_url) {
             $url = env('QINIU_DOMAIN');
             $imgs = '';
-            foreach (json_decode($images_url) as $img) {
-                $imgs .=  "<img class='img-rounded' style='max-width: 30%; height: 150px; 
-                            border: 1px solid #f0f0f0;
-                            margin: 5px;' src='http://{$url}/{$img}' />";
+            if (!empty($images_url)) {
+                foreach ($images_url as $img) {
+                    $imgs .=  "<img class='img-rounded' style='max-width: 30%; height: 150px; 
+                                border: 1px solid #f0f0f0;
+                                margin: 5px;' src='http://{$url}/{$img}' />";
+                }
             }
             return $imgs;
         });
