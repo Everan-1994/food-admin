@@ -13,7 +13,7 @@ class AboutUs extends Model
     public function setImageAttribute($images)
     {
         if (is_array($images)) {
-            $this->attributes['image'] = json_encode($images);
+            $this->attributes['image'] = !empty($images) ? json_encode($images) : json_encode([]);
         }
     }
 

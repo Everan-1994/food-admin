@@ -34,7 +34,7 @@ class EveranController extends Controller
     {
         $banners = $banner::query()->select(['id', 'img_url', 'jump_url'])
             ->where('is_show', 1)
-            ->orderBy('sort', 'desc')
+            ->orderBy('sort', 'asc')
             ->get();
 
         return response($banners);
@@ -117,7 +117,7 @@ class EveranController extends Controller
                 $query->where('name', 'like', '%' . $request->input('key_word') . '%');
             })
             ->where('is_show', 1)
-            ->orderBy('sort', 'desc')
+            ->orderBy('sort', 'asc')
             ->get();
 
         if ($request->input('chunk', false)) {
@@ -160,7 +160,7 @@ class EveranController extends Controller
                 $query->where('goods_name', 'like', '%' . $request->input('key_word') . '%');
             })
             ->where('is_show', 1)
-            ->orderBy('sort', 'desc')
+            ->orderBy('sort', 'asc')
             ->paginate($request->input('pageSize', 6), ['*'], 'page', $request->input('page', 1));
 
         return response($list);
@@ -302,7 +302,7 @@ class EveranController extends Controller
                 $query->where('name', 'like', '%'. $request->input('name') .'%');
             })
             ->where('is_show', 1)
-            ->orderBy('sort', 'desc')
+            ->orderBy('sort', 'asc')
             ->get();
 
         return response($list);
