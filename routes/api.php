@@ -42,6 +42,7 @@ Route::group([
     // 新闻列表
     $router->get('news_list', 'EveranController@getNewsList');
     $router->get('news_list/{id}', 'EveranController@getNewsById');
+    $router->get('mobile/news_list', 'EveranController@getNewsForMobile');
 
     // 门店列表
     $router->get('contact_us', 'EveranController@getContactUsList');

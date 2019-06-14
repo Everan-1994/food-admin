@@ -250,6 +250,34 @@ class EveranController extends Controller
         return response(NewsResource::collection($list));
     }
 
+
+    public function getNewsForMobile(News $news)
+    {
+        $type_0 = $news::query()
+            ->select(['id', 'type', 'title', 'image', 'video', 'detail_image', 'intro', 'resource_type', 'from', 'created_at'])
+            ->where('type', 0)
+            ->orderBy('sort', 'asc')
+            ->get();
+
+        $type_1 = $news::query()
+            ->select(['id', 'type', 'title', 'image', 'video', 'detail_image', 'intro', 'resource_type', 'from', 'created_at'])
+            ->where('type', 1)
+            ->orderBy('sort', 'asc')
+            ->get();
+
+        $type_2 = $news::query()
+            ->select(['id', 'type', 'title', 'image', 'video', 'detail_image', 'intro', 'resource_type', 'from', 'created_at'])
+            ->where('type', 2)
+            ->orderBy('sort', 'asc')
+            ->get();
+
+        $list[] = optional($type_0)->toArray()[0];
+        $list[] = optional($type_1)->toArray()[0];
+        $list[] = optional($type_2)->toArray()[0];
+
+        return response($list);
+    }
+
     public function getNewsById($id, News $news)
     {
         $news_detail = $news::query()
