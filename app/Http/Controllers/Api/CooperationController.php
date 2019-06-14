@@ -26,7 +26,7 @@ class CooperationController extends Controller
                 'code'    => 0,
                 'message' => '留言信息不全',
                 'error' => $validator->errors()
-            ], 401);
+            ], 400);
         }
 
         $images_url = $request->input('images_url', '');
@@ -67,7 +67,8 @@ class CooperationController extends Controller
             return response([
                 'code'    => 0,
                 'message' => '提交失败',
-            ], 401);
+                'error' => $exception->getMessage()
+            ], 400);
         }
     }
 
