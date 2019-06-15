@@ -118,11 +118,18 @@ class EveranController extends Controller
             })
             ->where('is_show', 1)
             ->orderBy('sort', 'asc')
-            ->limit(9)
             ->get();
 
         if ($request->input('chunk', false)) {
             return response(array_chunk($super->toArray(), 4));
+        } else {
+            $filtered = $super->filter(function ($value, $key) {
+                 if($key < 9) {
+                    return $value;
+                 }
+            });
+
+            $super = $filtered->all();
         }
 
         return response($super);
