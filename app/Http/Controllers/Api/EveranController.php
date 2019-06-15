@@ -118,6 +118,7 @@ class EveranController extends Controller
             })
             ->where('is_show', 1)
             ->orderBy('sort', 'asc')
+            ->limit(9)
             ->get();
 
         if ($request->input('chunk', false)) {
