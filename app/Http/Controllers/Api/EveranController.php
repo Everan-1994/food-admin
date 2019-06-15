@@ -80,7 +80,7 @@ class EveranController extends Controller
 
     public function getBrandById($id, BrandCooperation $brandCooperation)
     {
-        $brand = $brandCooperation::query()->select(['id', 'name', 'content', 'video'])->find($id);
+        $brand = $brandCooperation::query()->select(['id', 'name', 'content', 'video', 'image_url'])->find($id);
 
         return response($brand);
     }
