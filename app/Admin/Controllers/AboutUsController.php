@@ -89,7 +89,7 @@ class AboutUsController extends Controller
         $form = new Form(new AboutUs);
 
         $form->text('title', '标题')->rules('required');
-        $form->UEditor('content', '介绍')->rules('required');
+        $form->editor('content', '介绍')->rules('required');
 
         $form->select('resource_type', '封面(二选一)')->options([1 => '图片', 2 => '视频'])->default(1);
 

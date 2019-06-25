@@ -124,7 +124,7 @@ class SuperStoreController extends Controller
 
         $form->text('name', '商超名称')->rules('required');
         $form->textarea('intro', '商超简介')->rules('required');
-        $form->UEditor('content', '商超详情')->rules('required');
+        $form->editor('content', '商超详情')->rules('required');
         $form->image('logo', '商超图标')->rules('required|image');
         $form->multipleImage('images_url', '商超图片')->removable()->rules(function ($form) {
             // 如果不是编辑状态，则添加字段必填验证

@@ -115,6 +115,9 @@ Route::group([
     $router->get('common_problem/{id}/edit', 'CommonProblemController@edit');
     $router->put('common_problem/{id}', 'CommonProblemController@update');
     $router->delete('common_problem/{id}', 'CommonProblemController@destroy');
+
+    // wangEditor 上传图片
+    $router->post('uploads', 'BannerController@uploads');
 });
 
 

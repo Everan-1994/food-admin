@@ -128,7 +128,7 @@ class BrandCooperationController extends Controller
         $form = new Form(new BrandCooperation);
 
         $form->text('name', '品牌名称')->rules('required');
-        $form->UEditor('content', '品牌详情')->rules('required');
+        $form->editor('content', '品牌详情')->rules('required');
         $form->image('logo', '品牌图标')->rules('required|image');
         $form->image('logo_hover', '品牌图标(hover)')->rules('required|image');
 //        $form->multipleImage('images_url', '品牌图片')->removable()->rules(function ($form) {

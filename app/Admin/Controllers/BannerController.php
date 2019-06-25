@@ -9,6 +9,8 @@ use Encore\Admin\Facades\Admin;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class BannerController extends Controller
 {
@@ -112,5 +114,32 @@ class BannerController extends Controller
         });
 
         return $form;
+    }
+
+    /**
+     * wangEditor 图片上传
+     * @param Request $request
+     * @return string
+     */
+    public function uploads(Request $request)
+    {
+        $files = $request->file("images");
+        $res = ['errno' => 1, 'errmsg' => '上传图片错误'];
+        $data = [];
+        foreach ($files as $key => $file) {
+            $ext = strtolower($file->extension());
+            $exts = ['jpg', 'png', 'gif', 'jpeg'];
+            if (!in_array($ext, $exts)) {
+                $res = ['errno' => 1, 'errmsg' => '请上传正确的图片类型，支持jpg, png, gif, jpeg类型'];
+                return json_encode($res);
+            }
+        }
+
+        foreach ($files as $k => $_file) {
+            $data[] = 'http://' . env('QINIU_DOMAIN') . '/' . Storage::disk('qiniu')->put('apply', $_file);
+        }
+
+        $res = ['errno' => 0, 'data' => $data];
+        return json_encode($res);
     }
 }

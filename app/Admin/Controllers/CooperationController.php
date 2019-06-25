@@ -55,7 +55,7 @@ class CooperationController extends Controller
     {
         $form = new Form(new Cooperation);
 
-        $form->UEditor('content', '内容')->rules('required');
+        $form->editor('content', '内容')->rules('required');
         $form->image('image_url', '图片')->rules('required|image');
 
         $form->tools(function (Form\Tools $tools) {

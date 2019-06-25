@@ -174,7 +174,7 @@ class OwnBrandController extends Controller
 
         $form->text('goods_name', '产品名称')->rules('required');
         $form->textarea('goods_intro', '产品介绍')->rules('required');
-        $form->UEditor('goods_content', '产品详情')->rules('required');
+        $form->editor('goods_content', '产品详情')->rules('required');
         $form->image('goods_img', '产品图片')->rules('required|image');
         $form->image('detail_img', '产品详情图片')->rules('image');
         $form->multipleImage('images_url', '轮播图')->removable()->rules(function ($form) {

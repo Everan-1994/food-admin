@@ -54,7 +54,7 @@ class ServersController extends Controller
     {
         $form = new Form(new Server);
 
-        $form->UEditor('content', '内容')->rules('required');
+        $form->editor('content', '内容')->rules('required');
         $form->multipleImage('images_url', '轮播图')->removable()->rules('image');
 
         $form->tools(function (Form\Tools $tools) {
