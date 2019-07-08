@@ -26,6 +26,7 @@ class SuperServerController extends Controller
     {
         Admin::script($this->removeCancelButton());
         Admin::script($this->addTextTips('images_url', '最多上传5张图片'));
+        Admin::script($this->addTips('images_url', '914', '480'));
 
         return $content
             ->header('商超服务')

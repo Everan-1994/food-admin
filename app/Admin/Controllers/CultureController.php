@@ -22,6 +22,9 @@ class CultureController extends Controller
      */
     public function edit($id, Content $content)
     {
+        Admin::script($this->addTips('logo', '227', '101'));
+        Admin::script($this->addTips('wx_qrcode', '142', '139'));
+        Admin::script($this->addTips('kf_qrcode', '142', '139'));
         Admin::script($this->removeCancelButton());
 
         return $content

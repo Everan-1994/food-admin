@@ -25,6 +25,7 @@ class MerchantsProxyController extends Controller
     public function edit($id, Content $content)
     {
         Admin::script($this->removeCancelButton());
+        Admin::script($this->addTips('business_license', '354', '250'));
 
         return $content
             ->header('招商代理')

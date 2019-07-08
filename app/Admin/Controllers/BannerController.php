@@ -38,6 +38,7 @@ class BannerController extends Controller
      */
     public function edit($id, Content $content)
     {
+        Admin::script($this->addTips('img_url', '1920', '636'));
         Admin::script($this->removeCancelButton());
 
         return $content
@@ -53,6 +54,7 @@ class BannerController extends Controller
      */
     public function create(Content $content)
     {
+        Admin::script($this->addTips('img_url', '1920', '636'));
         Admin::script($this->removeCancelButton());
 
         return $content

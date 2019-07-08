@@ -24,6 +24,7 @@ class CompanyCultureController extends Controller
      */
     public function edit($id, Content $content)
     {
+        Admin::script($this->addTips('image_url', '705', '438'));
         Admin::script($this->removeCancelButton());
 
         return $content
