@@ -2,6 +2,7 @@
 
 namespace App\Admin\Controllers;
 
+use App\Admin\Extensions\CooperationReviewExporter;
 use App\Models\CooperationReview;
 use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\HasResourceActions;
@@ -69,6 +70,9 @@ class CooperationReviewController extends Controller
             });
         });
 
+        // 显示导出按钮
+        $grid->disableExport(false);
+
         // 禁用新增按钮
         $grid->disableCreateButton();
 
@@ -83,6 +87,8 @@ class CooperationReviewController extends Controller
             $filter->like('user_email', '邮箱');
 
         });
+
+        $grid->exporter(new CooperationReviewExporter());
 
         return $grid;
     }
